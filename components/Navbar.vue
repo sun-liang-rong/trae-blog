@@ -4,7 +4,7 @@
       <!-- Logo和个人签名 -->
       <div class="navbar-brand">
         <NuxtLink to="/" class="logo">
-          <span class="logo-text">Tech Blog</span>
+          <span class="logo-text">SunSun Blog</span>
         </NuxtLink>
         <span class="tagline">探索技术的奥秘</span>
       </div>
