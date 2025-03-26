@@ -9,10 +9,6 @@
     
     <!-- 焦点图区域 -->
     <div class="featured-section">
-      <div class="section-header">
-        <h1 class="animated-title">探索<span class="accent">技术</span>的奥秘</h1>
-        <p class="subtitle">分享前沿技术与创意设计的个人博客</p>
-      </div>
       <div style="padding: 15px 30px;">
         <FeaturedSlider :featuredArticles="featuredArticles" />
       </div>
@@ -45,21 +41,7 @@
               class="article-card-wrapper"
             />
           </div>
-          
-          <!-- 订阅区域 -->
-          <!-- <div class="subscribe-banner">
-            <div class="subscribe-content">
-              <h3>不错过任何更新</h3>
-              <p>订阅我的技术博客，获取最新文章和技术动态</p>
-              <form @submit.prevent="subscribe" class="subscribe-form">
-                <input type="email" v-model="email" placeholder="您的邮箱地址" required />
-                <button type="submit">订阅</button>
-              </form>
-            </div>
-            <div class="subscribe-decoration"></div>
-          </div> -->
         </div>
-        
         <!-- 侧边栏 -->
         <div class="sidebar-area">
           <Sidebar :profile="profile" />

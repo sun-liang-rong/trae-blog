@@ -90,7 +90,7 @@ onMounted(() => {
 <style>
 /* 全局样式 */
 .main-content {
-  padding-top: 90px; /* 导航栏高度 + 额外空间 */
+  padding-top: 70px; /* 导航栏高度 + 额外空间 */
   min-height: 100vh;
   transition: padding var(--transition-normal);
 }

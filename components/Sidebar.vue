@@ -27,34 +27,6 @@
         </a>
       </div>
     </div>
-    
-    <!-- 最新评论流 -->
-    <!-- <div class="comments-card card">
-      <h3 class="card-title">最新评论</h3>
-      <div class="comment-list">
-        <div v-for="comment in comments" :key="comment.id" class="comment-item">
-          <div class="comment-header">
-            <img :src="comment.avatar" class="comment-avatar" alt="Commenter Avatar" />
-            <div class="comment-meta">
-              <span class="comment-author">{{ comment.author }}</span>
-              <span class="comment-date">{{ comment.date }}</span>
-            </div>
-          </div>
-          <p class="comment-content">{{ comment.content }}</p>
-          <a :href="`/articles/${comment.articleId}`" class="comment-article">{{ comment.articleTitle }}</a>
-        </div>
-      </div>
-    </div> -->
-    
-    <!-- 订阅CTA按钮 -->
-    <!-- <div class="subscribe-card card">
-      <h3 class="subscribe-title">订阅更新</h3>
-      <p class="subscribe-text">获取最新文章和技术动态</p>
-      <form class="subscribe-form" @submit.prevent="subscribe">
-        <input type="email" v-model="email" placeholder="您的邮箱地址" required class="subscribe-input" />
-        <button type="submit" class="btn subscribe-btn">订阅</button>
-      </form>
-    </div> -->
   </div>
 </template>
 
@@ -87,35 +59,6 @@ const tags = ref([
   { name: 'WebGL', count: 6, size: 1.1 },
   { name: 'TypeScript', count: 14, size: 1.4 }
 ])
-
-const comments = ref([
-  {
-    id: 1,
-    author: '前端爱好者',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
-    content: '这篇文章讲解得非常清晰，对Nuxt3的理解更深入了！',
-    date: '2天前',
-    articleId: 1,
-    articleTitle: 'Nuxt3服务端渲染实践'
-  },
-  {
-    id: 2,
-    author: 'WebGL大神',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
-    content: '粒子系统优化的思路很棒，已经在我的项目中实践了。',
-    date: '5天前',
-    articleId: 2,
-    articleTitle: 'Three.js粒子系统优化'
-  }
-])
-
-const email = ref('')
-
-const subscribe = () => {
-  // 这里可以添加实际的订阅逻辑
-  alert(`感谢订阅！确认邮件已发送至 ${email.value}`)
-  email.value = ''
-}
 
 const getTagColor = (tag) => {
   switch(tag) {
