@@ -13,15 +13,15 @@
         
         <!-- 元信息展示区 -->
         <div class="meta">
-          <span class="tag" :style="{ backgroundColor: getTagColor(article.tag) }">{{ article.tag }}</span>
-          <span class="date">{{ article.date }}</span>
+          <span class="tag" v-for="item in tags" :key="item.id" :style="{ backgroundColor: item.tagCOlor }">{{ item.tagName }}</span>
+          <span class="date">{{ article.createTime }}</span>
           <span class="read-time">{{ article.readTime }}分钟阅读</span>
           <span class="views">👁 {{ article.views }}次阅读</span>
         </div>
 
         <!-- 文章内容渲染区 -->
         <div class="content" ref="contentRef">
-          <p v-for="(para, index) in article.content" :key="index">{{ para }}</p>
+          <pre class="hljs"><code v-html="highlightedCode" /></pre>
         </div>
         
         <!-- 分享按钮组 -->
@@ -84,44 +84,40 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import gsap from 'gsap'
+import { marked } from 'marked'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css' // 代码高亮的样式
 const route = useRoute()
 const router = useRouter()
 
 // 文章数据
-const article = ref({
-  id: route.params.id,
-  title: 'Nuxt3服务端渲染实践',
-  date: '2024-03-15',
-  readTime: 8,
-  tag: 'Nuxt',
-  views: 256,
-  content: [
-    '# Nuxt3服务端渲染实践',
-    '## 引言',
-    '本文详细探讨如何利用Nuxt3的SSR特性提升应用性能，实现首屏快速加载与SEO优化。',
-    '## 服务端渲染基础',
-    '通过服务端渲染实现首屏快速加载，结合客户端hydration保持交互性。Nuxt3提供了完整的SSR解决方案，让开发者无需关心底层实现细节。',
-    '## 性能优化技巧',
-    '使用组件懒加载、代码分割和资源预加载等技术，进一步提升应用性能。',
-    '## 实际案例分析',
-    '以一个电商网站为例，分析SSR如何提升用户体验和转化率。',
-    '## 总结',
-    '服务端渲染是现代Web应用的重要技术，Nuxt3让这一技术变得易用和高效。'
-  ]
-})
-
+const article = ref({})
+const getArticleDetail = async () => {
+  // 文章列表数据
+  const {
+    data: detail,
+    pending: loading,
+    error,
+  } = await useFetch("/api/articles/detail?articleId=" + route.params.id, {
+    method: "GET"
+  });
+  console.log(detail.value, loading, error);
+  if (detail.value?.code === 200) {
+    article.value = detail.value.data;
+    article.value.content = marked.parse(article.value.content);
+    console.log(article.value.content, 'article.value.content');
+  }
+};
+await getArticleDetail();
+const highlightedCode = computed(() => {
+  return hljs.highlight(article.value.content || 'ada', { language: 'html' }).value;
+});
 // 阅读进度跟踪
 const readingProgress = ref(0)
 const contentRef = ref(null)
 const isScrolled = ref(false)
 const activeHeading = ref(0)
 
-// 提取文章中的标题作为目录
-const headings = computed(() => {
-  return article.value.content
-    .filter(line => line.startsWith('#'))
-    .map(line => line.replace(/^#+\s+/, ''))
-})
 
 // 上一篇/下一篇文章
 const prevArticle = ref({

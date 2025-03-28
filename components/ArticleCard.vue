@@ -1,10 +1,10 @@
 <template>
   <NuxtLink :to="`/articles/${article.id}`" class="article-card">
     <div class="card-content">
-      <div class="cover-image" :style="{ backgroundImage: `url(${article.coverImage || 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'})` }">
+      <div class="cover-image" :style="{ backgroundImage: `url(${'http://localhost:3000/api' + article.coverImage})` }">
         <div class="overlay">
-          <span class="tag" :style="{ backgroundColor: getTagColor(article.tag) }">
-            {{ article.tag }}
+          <span class="tag" v-for="item in article.tags" :key="item.id" :style="{ backgroundColor: item.tagColor }">
+            {{ item.tagName }}
           </span>
         </div>
       </div>
@@ -20,7 +20,7 @@
                 <line x1="8" y1="2" x2="8" y2="6"></line>
                 <line x1="3" y1="10" x2="21" y2="10"></line>
               </svg>
-              {{ article.date }}
+              {{ formatDate(article.createTime) }}
             </span>
             <span class="read-time" v-if="article.readTime">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -35,7 +35,7 @@
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
-            {{ article.views }}次
+            {{ article.readingNum }}次
           </span>
         </div>
       </div>
@@ -50,14 +50,16 @@
 
 <script setup>
 import { ref } from 'vue'
-
+import dayjs from 'dayjs'
 const props = defineProps({
   article: {
     type: Object,
     required: true
   }
 })
-
+const formatDate = (date) => {
+  return dayjs(date).format('YYYY-MM-DD');
+}
 const isBookmarked = ref(false)
 
 const toggleBookmark = () => {
@@ -65,17 +67,6 @@ const toggleBookmark = () => {
   // 这里可以添加实际的收藏逻辑
 }
 
-const getTagColor = (tag) => {
-  switch(tag) {
-    case 'Nuxt': return '#42b883';
-    case 'Three.js': return '#6b4bb3';
-    case 'Vue': return '#3eaf7c';
-    case 'JavaScript': return '#f7df1e';
-    case 'CSS': return '#2965f1';
-    case 'HTML': return '#e34c26';
-    default: return '#cccccc';
-  }
-}
 </script>
 
 <style scoped>

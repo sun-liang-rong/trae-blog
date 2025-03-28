@@ -17,13 +17,13 @@
       <h3 class="card-title">热门标签</h3>
       <div class="tags-cloud">
         <a 
-          v-for="tag in tags" 
-          :key="tag.name" 
+          v-for="tag in tagsList" 
+          :key="tag.id" 
           href="#" 
           class="tag-item"
-          :style="{ fontSize: `${tag.size}rem`, backgroundColor: getTagColor(tag.name) }"
+          :style="{ backgroundColor: tag.tagColor }"
         >
-          {{ tag.name }}
+          {{ tag.tagName }}
         </a>
       </div>
     </div>
@@ -60,19 +60,22 @@ const tags = ref([
   { name: 'TypeScript', count: 14, size: 1.4 }
 ])
 
-const getTagColor = (tag) => {
-  switch(tag) {
-    case 'Nuxt': return '#42b883';
-    case 'Vue': return '#3eaf7c';
-    case 'Three.js': return '#6b4bb3';
-    case 'JavaScript': return '#f7df1e';
-    case 'CSS': return '#2965f1';
-    case 'HTML': return '#e34c26';
-    case 'WebGL': return '#990000';
-    case 'TypeScript': return '#007acc';
-    default: return '#cccccc';
+const tagsList = ref([]);
+const getTagList = async () => {
+  // 文章列表数据
+  const {
+    data: tagData,
+    pending: loading,
+    error,
+  } = await useFetch("/api/tags/blogIndex", {
+    method: "GET"
+  });
+  console.log(tagData.value, loading, error);
+  if (tagData.value?.code === 200) {
+    tagsList.value = tagData.value.data;
   }
-}
+};
+await getTagList();
 </script>
 
 <style scoped>

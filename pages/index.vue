@@ -6,38 +6,44 @@
       <div class="parallax-layer layer-2" ref="layer2"></div>
       <div class="parallax-layer layer-3" ref="layer3"></div>
     </div>
-    
+
     <!-- 焦点图区域 -->
     <div class="featured-section">
-      <div style="padding: 15px 30px;">
+      <div style="padding: 15px 30px">
         <FeaturedSlider :featuredArticles="featuredArticles" />
       </div>
     </div>
-    
+
     <div class="container">
       <!-- 技术栈展示区 -->
       <div class="tech-showcase">
-        <div class="tech-item" v-for="(tech, index) in techStack" :key="index" :style="{ '--delay': `${index * 0.1}s` }">
+        <div
+          class="tech-item"
+          v-for="(tech, index) in techStack"
+          :key="index"
+          :style="{ '--delay': `${index * 0.1}s` }"
+        >
           <div class="tech-icon" :style="{ backgroundColor: tech.color }">
             <span>{{ tech.icon }}</span>
           </div>
           <span class="tech-name">{{ tech.name }}</span>
         </div>
       </div>
-      
+
       <div class="home-content">
         <!-- 主内容区 -->
         <div class="main-content-area">
           <div class="section-header">
             <h2 class="section-title">最新文章</h2>
-            <NuxtLink to="/archives" class="view-all">查看全部 <span class="arrow">→</span></NuxtLink>
+            <NuxtLink to="/archives" class="view-all"
+              >查看全部 <span class="arrow">→</span></NuxtLink
+            >
           </div>
-          
           <div class="articles-grid">
-            <ArticleCard 
-              v-for="article in articles" 
-              :key="article.id" 
-              :article="article" 
+            <ArticleCard
+              v-for="article in articles"
+              :key="article.id"
+              :article="article"
               class="article-card-wrapper"
             />
           </div>
@@ -51,107 +57,85 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ref, onMounted, onUnmounted } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // 注册GSAP插件
 if (process.client) {
-  gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollTrigger);
 }
-
+console.log(1111)
 // 个人资料数据
 const profile = ref({
-  avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
-  name: '技术博主',
-  bio: '专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。',
+  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  name: "技术博主",
+  bio: "专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。",
   links: [
-    { name: 'GitHub', url: 'https://github.com' },
-    { name: '掘金', url: 'https://juejin.cn' },
-    { name: '知乎', url: 'https://zhihu.com' }
-  ]
-})
+    { name: "GitHub", url: "https://github.com" },
+    { name: "掘金", url: "https://juejin.cn" },
+    { name: "知乎", url: "https://zhihu.com" },
+  ],
+});
 
 // 技术栈数据
 const techStack = ref([
-  { name: 'Vue', icon: '⚡', color: '#42b883' },
-  { name: 'React', icon: '⚛️', color: '#61dafb' },
-  { name: 'TypeScript', icon: 'TS', color: '#3178c6' },
-  { name: 'Node.js', icon: '🟢', color: '#68a063' },
-  { name: 'Three.js', icon: '3D', color: '#6b4bb3' },
-  { name: 'CSS', icon: '🎨', color: '#2965f1' },
-  { name: 'WebGL', icon: '🌐', color: '#990000' },
-  { name: 'Nuxt', icon: 'N', color: '#00dc82' }
-])
+  { name: "Vue", icon: "⚡", color: "#42b883" },
+  { name: "React", icon: "⚛️", color: "#61dafb" },
+  { name: "TypeScript", icon: "TS", color: "#3178c6" },
+  { name: "Node.js", icon: "🟢", color: "#68a063" },
+  { name: "Three.js", icon: "3D", color: "#6b4bb3" },
+  { name: "CSS", icon: "🎨", color: "#2965f1" },
+  { name: "WebGL", icon: "🌐", color: "#990000" },
+  { name: "Nuxt", icon: "N", color: "#00dc82" },
+]);
 
 // 焦点文章数据
 const featuredArticles = ref([
   {
     id: 1,
-    title: 'Nuxt3服务端渲染实践',
-    excerpt: '探索Nuxt3的SSR特性如何提升应用性能，实现首屏快速加载与SEO优化。',
-    tag: 'Nuxt',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+    title: "Nuxt3服务端渲染实践",
+    excerpt: "探索Nuxt3的SSR特性如何提升应用性能，实现首屏快速加载与SEO优化。",
+    tag: "Nuxt",
+    coverImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
   },
   {
     id: 2,
-    title: 'Three.js粒子系统优化',
-    excerpt: '深入解析Three.js中粒子系统的性能优化技巧，打造流畅的3D视觉体验。',
-    tag: 'Three.js',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+    title: "Three.js粒子系统优化",
+    excerpt: "深入解析Three.js中粒子系统的性能优化技巧，打造流畅的3D视觉体验。",
+    tag: "Three.js",
+    coverImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
   },
   {
     id: 3,
-    title: '现代CSS布局技巧',
-    excerpt: '掌握Grid和Flexbox的高级应用，构建响应式且富有创意的网页布局。',
-    tag: 'CSS',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+    title: "现代CSS布局技巧",
+    excerpt: "掌握Grid和Flexbox的高级应用，构建响应式且富有创意的网页布局。",
+    tag: "CSS",
+    coverImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  },
+]);
+const articles = ref([]);
+const getArticlesList = async () => {
+  // 文章列表数据
+  const {
+    data: articlesData,
+    pending: loading,
+    error,
+  } = await useFetch("/api/articles", {
+    method: "POST",
+    body: {
+      page: 1,
+      size: 10,
+    },
+  });
+  if (articlesData.value?.code === 200) {
+    articles.value = articlesData.value.data.data;
   }
-])
-
-// 文章列表数据
-const articles = ref([
-  {
-    id: 1,
-    title: 'Nuxt3服务端渲染实践',
-    excerpt: '探索Nuxt3的SSR特性如何提升应用性能，实现首屏快速加载与SEO优化。',
-    date: '2024-03-15',
-    readTime: 8,
-    views: 256,
-    tag: 'Nuxt',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-  },
-  {
-    id: 2,
-    title: 'Three.js粒子系统优化',
-    excerpt: '深入解析Three.js中粒子系统的性能优化技巧，打造流畅的3D视觉体验。',
-    date: '2024-03-14',
-    readTime: 12,
-    views: 184,
-    tag: 'Three.js',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-  },
-  {
-    id: 3,
-    title: '现代CSS布局技巧',
-    excerpt: '掌握Grid和Flexbox的高级应用，构建响应式且富有创意的网页布局。',
-    date: '2024-03-10',
-    readTime: 6,
-    views: 320,
-    tag: 'CSS',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-  },
-  {
-    id: 4,
-    title: 'Vue3组合式API最佳实践',
-    excerpt: '深度剖析Vue3组合式API的使用技巧，提升代码可维护性和复用性。',
-    date: '2024-03-10',
-    readTime: 6,
-    views: 320,
-    tag: 'CSS',
-    coverImage: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
-  }
-])
+};
+await getArticlesList();
+onMounted(() => {
+  
+});
 </script>
 <style scoped>
 .home-page {
@@ -183,8 +167,16 @@ const articles = ref([
 }
 
 .layer-1 {
-  background: radial-gradient(circle at 80% 20%, rgba(12, 80, 120, 0.2) 0%, rgba(0, 0, 0, 0) 70%),
-              radial-gradient(circle at 20% 80%, rgba(255, 107, 107, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+  background: radial-gradient(
+      circle at 80% 20%,
+      rgba(12, 80, 120, 0.2) 0%,
+      rgba(0, 0, 0, 0) 70%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 107, 107, 0.1) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
   opacity: 0.7;
   transform: translateZ(-10px) scale(2);
 }
@@ -197,7 +189,11 @@ const articles = ref([
 }
 
 .layer-3 {
-  background: linear-gradient(135deg, rgba(0, 32, 63, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 32, 63, 0.1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
   backdrop-filter: blur(5px);
   transform: translateZ(-2px) scale(1.2);
 }
@@ -218,7 +214,11 @@ const articles = ref([
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: var(--spacing-md);
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -234,7 +234,7 @@ const articles = ref([
 }
 
 .animated-title .accent::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -321,7 +321,7 @@ const articles = ref([
 }
 
 .section-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -388,7 +388,11 @@ const articles = ref([
 .subscribe-banner {
   margin-top: var(--spacing-xxl);
   padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--primary-color), rgba(42, 59, 79, 0.8));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    rgba(42, 59, 79, 0.8)
+  );
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
@@ -464,7 +468,7 @@ const articles = ref([
 }
 
 .subscribe-decoration::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50px;
   left: -100px;
@@ -479,11 +483,11 @@ const articles = ref([
   .home-content {
     grid-template-columns: 1.5fr 1fr; /* 调整比例 */
   }
-  
+
   .articles-grid {
     grid-template-columns: 1fr; /* 平板上改为单列 */
   }
-  
+
   .animated-title {
     font-size: 2.5rem;
   }
@@ -493,32 +497,32 @@ const articles = ref([
   .home-content {
     grid-template-columns: 1fr; /* 移动端单列布局 */
   }
-  
+
   .sidebar-area {
     order: -1; /* 侧边栏移到顶部 */
     margin-bottom: var(--spacing-lg);
   }
-  
+
   .animated-title {
     font-size: 2rem;
   }
-  
+
   .tech-showcase {
     gap: var(--spacing-sm);
     padding: var(--spacing-md);
   }
-  
+
   .tech-icon {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
-  
+
   .subscribe-banner {
     padding: var(--spacing-lg);
     flex-direction: column;
   }
-  
+
   .subscribe-form {
     flex-direction: column;
   }
@@ -537,8 +541,12 @@ const articles = ref([
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {

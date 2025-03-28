@@ -12,5 +12,14 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/global.css'],
   devtools: { enabled: true },
-  compatibilityDate: '2024-11-01'
+  compatibilityDate: '2024-11-01',
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        prependPath: true
+      }
+    }
+  }
 })
