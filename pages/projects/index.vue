@@ -2,7 +2,6 @@
   <div class="projects-page">
     <div class="container">
       <h1 class="page-title">个人项目</h1>
-      
       <div class="projects-grid">
         <div v-for="project in projects" :key="project.id" class="project-card">
           <div class="card-content">
@@ -41,7 +40,69 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// 注册GSAP插件
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// 视差效果处理
+const handleMouseMove = (e) => {
+  if (!process.client) return;
+  
+  const mouseX = e.clientX / window.innerWidth;
+  const mouseY = e.clientY / window.innerHeight;
+  
+  // 卡片光效
+  const cards = document.querySelectorAll('.card-content');
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  });
+};
+
+// 生命周期钩子
+onMounted(() => {
+  if (process.client) {
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // 初始化动画
+    gsap.from('.page-title', {
+      y: -50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    });
+    
+    // 项目卡片动画
+    gsap.utils.toArray('.project-card').forEach((card, index) => {
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        delay: 0.1 * index,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top bottom-=100',
+          toggleActions: 'play none none none'
+        }
+      });
+    });
+  }
+});
+
+onUnmounted(() => {
+  if (process.client) {
+    window.removeEventListener('mousemove', handleMouseMove);
+  }
+});
 
 // 模拟项目数据
 const projects = ref([
@@ -94,23 +155,38 @@ const getTechColor = (tech) => {
 .projects-page {
   padding: 2rem 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(0, 32, 63, 0.95), rgba(0, 32, 63, 0.85));
+  position: relative;
+  overflow: hidden;
+}
+
+.projects-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+  z-index: 0;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .page-title {
   font-size: 2.5rem;
-  color: rgba(0, 255, 255, 0.9);
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 3rem;
   font-weight: 700;
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   letter-spacing: 2px;
+  position: relative;
 }
 
 .projects-grid {
@@ -120,21 +196,22 @@ const getTechColor = (tech) => {
 }
 
 .project-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(67, 97, 238, 0.05);
+  box-shadow: var(--card-shadow);
   transform-style: preserve-3d;
   perspective: 1000px;
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
 }
 
 .project-card:hover {
-  transform: translateY(-5px) rotateX(5deg);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(0, 255, 255, 0.3);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
+  border-color: rgba(67, 97, 238, 0.12);
 }
 
 .card-content {
@@ -143,20 +220,24 @@ const getTechColor = (tech) => {
 
 .project-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .project-title {
   font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  text-align: center;
+  color: var(--text-primary);
   margin: 0;
   font-weight: 600;
 }
 
 .project-links {
   display: flex;
+  justify-content: center;
+  white-space: nowrap;
   gap: 0.5rem;
 }
 
@@ -165,7 +246,7 @@ const getTechColor = (tech) => {
   align-items: center;
   gap: 0.3rem;
   padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  border-radius: var(--radius-full);
   color: white;
   text-decoration: none;
   font-size: 0.9rem;
@@ -173,11 +254,11 @@ const getTechColor = (tech) => {
 }
 
 .project-link.demo {
-  background: rgba(0, 255, 255, 0.2);
+  background: var(--primary-color);
 }
 
 .project-link.github {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(45, 55, 72, 0.8);
 }
 
 .project-link:hover {
@@ -186,7 +267,7 @@ const getTechColor = (tech) => {
 }
 
 .project-description {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.6;
   margin: 1rem 0;
@@ -201,11 +282,11 @@ const getTechColor = (tech) => {
 
 .tech-tag {
   padding: 0.3rem 0.8rem;
-  border-radius: 15px;
+  border-radius: var(--radius-full);
   font-size: 0.8rem;
   color: white;
   font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {

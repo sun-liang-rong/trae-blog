@@ -11,11 +11,11 @@
       
       <!-- 导航菜单 -->
       <div class="navbar-menu" :class="{ 'is-active': isMenuActive }">
-        <NuxtLink to="/" class="navbar-item">首页</NuxtLink>
-        <NuxtLink to="/categories" class="navbar-item">分类</NuxtLink>
-        <NuxtLink to="/archives" class="navbar-item">归档</NuxtLink>
-        <NuxtLink to="/projects" class="navbar-item">项目</NuxtLink>
-        <NuxtLink to="/about" class="navbar-item">关于</NuxtLink>
+        <NuxtLink to="/" class="navbar-item" @click="closeMenu">首页</NuxtLink>
+        <NuxtLink to="/categories" class="navbar-item" @click="closeMenu">分类</NuxtLink>
+        <NuxtLink to="/archives" class="navbar-item" @click="closeMenu">归档</NuxtLink>
+        <NuxtLink to="/projects" class="navbar-item" @click="closeMenu">项目</NuxtLink>
+        <NuxtLink to="/about" class="navbar-item" @click="closeMenu">关于</NuxtLink>
       </div>
       
       <!-- 右侧功能区 -->
@@ -61,7 +61,7 @@
         </button>
         
         <!-- 移动端汉堡菜单按钮 -->
-        <button class="hamburger-button" @click="toggleMenu" aria-label="菜单">
+        <button class="hamburger-button" :class="{ 'is-active': isMenuActive }" @click="toggleMenu" aria-label="菜单">
           <span></span>
           <span></span>
           <span></span>
@@ -94,6 +94,11 @@ onMounted(() => {
 
 const toggleMenu = () => {
   isMenuActive.value = !isMenuActive.value
+}
+
+// 点击菜单项后关闭菜单
+const closeMenu = () => {
+  isMenuActive.value = false
 }
 
 // 初始化主题
@@ -143,18 +148,36 @@ onMounted(() => {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  right: -8px;
+  top: 5px;
 }
 
 .tagline {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
 }
 
 .navbar-menu {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .navbar-item {
@@ -164,38 +187,47 @@ onMounted(() => {
   text-decoration: none;
   position: relative;
   padding: 0.5rem 0;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
+  letter-spacing: 0.01em;
+}
+
+.navbar-item.router-link-active {
+  color: var(--primary-color);
+}
+
+.navbar-item.router-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  border-radius: 3px;
+  transform: scaleX(1);
+  transition: transform 0.3s ease;
 }
 
 .navbar-item:hover {
-  color: var(--accent-color);
+  color: var(--primary-color);
   transform: translateY(-2px);
 }
 
 .navbar-item::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: var(--accent-color);
-  transition: width 0.3s ease, left 0.3s ease;
-  transform-origin: center;
-}
-
-.navbar-item:hover::after,
-.navbar-item.router-link-active::after {
-  width: 100%;
+  bottom: -2px;
   left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transition: width 0.3s cubic-bez
 }
-
 .navbar-end {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-
 .icon-button {
   background: none;
   border: none;
@@ -248,7 +280,7 @@ onMounted(() => {
   height: 2px;
   width: 100%;
   background-color: var(--text-primary);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform-origin: center;
 }
 
@@ -263,7 +295,6 @@ onMounted(() => {
 .hamburger-button.is-active span:last-child {
   transform: translateY(-7px) rotate(-45deg);
 }
-
 /* 响应式设计 */
 @media (max-width: 768px) {
   .navbar-menu {
@@ -277,15 +308,18 @@ onMounted(() => {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     transform: translateY(-100%);
     opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1), max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     pointer-events: none;
     z-index: 999;
+    max-height: 0;
+    overflow: hidden;
   }
   
   .navbar-menu.is-active {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
+    max-height: 100vh;
   }
   
   .hamburger-button {

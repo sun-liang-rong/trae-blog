@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/content": "^3.4.0",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@tweenjs/tween.js": "^25.0.0",
     "dayjs": "^1.11.13",

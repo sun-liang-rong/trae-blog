@@ -56,16 +56,6 @@
           </div>
         </div>
       </section>
-
-      <!-- 教育背景 -->
-      <section class="about-section education-section">
-        <h2 class="section-title">教育背景</h2>
-        <div class="education-card">
-          <h3>计算机科学与技术</h3>
-          <h4>某某大学</h4>
-          <p>2018 - 2022</p>
-        </div>
-      </section>
     </div>
   </div>
 </template>
@@ -120,7 +110,6 @@ const experience = ref([
 .about-page {
   padding: 2rem 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(0, 32, 63, 0.95), rgba(0, 32, 63, 0.85));
 }
 
 .container {
@@ -131,34 +120,31 @@ const experience = ref([
 
 .page-title {
   font-size: 2.5rem;
-  color: rgba(0, 255, 255, 0.9);
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 3rem;
   font-weight: 700;
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
   letter-spacing: 2px;
 }
 
 .about-section {
   margin-bottom: 4rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 2rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .about-section:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(0, 255, 255, 0.3);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .section-title {
   font-size: 2rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -175,14 +161,14 @@ const experience = ref([
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid rgba(0, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  border: 3px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .avatar:hover {
   transform: scale(1.05) rotate(5deg);
-  border-color: rgba(0, 255, 255, 0.8);
+  border-color: #42b883;
 }
 
 .avatar img {
@@ -197,12 +183,12 @@ const experience = ref([
 
 .profile-info h2 {
   font-size: 2rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .profile-info p {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
@@ -214,12 +200,12 @@ const experience = ref([
 }
 
 .social-link {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
   transition: all 0.3s ease;
 }
 
 .social-link:hover {
-  color: rgba(0, 255, 255, 0.9);
+  color: #42b883;
   transform: translateY(-2px);
 }
 
@@ -233,8 +219,10 @@ const experience = ref([
 .skill-card {
   text-align: center;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
   border-radius: 15px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
@@ -253,7 +241,7 @@ const experience = ref([
 
 .skill-card:hover {
   transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .skill-icon {
@@ -271,12 +259,12 @@ const experience = ref([
 }
 
 .skill-card h3 {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .skill-card p {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
@@ -293,7 +281,7 @@ const experience = ref([
   top: 0;
   height: 100%;
   width: 2px;
-  background: rgba(0, 255, 255, 0.3);
+  background: #42b883;
 }
 
 .timeline-item {
@@ -322,50 +310,59 @@ const experience = ref([
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
-  background: rgba(0, 255, 255, 0.9);
-  border: 2px solid rgba(0, 32, 63, 0.95);
+  background: #42b883;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 0 0 4px rgba(66, 184, 131, 0.2);
 }
 
 .timeline-content h3 {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .timeline-content h4 {
-  color: rgba(0, 255, 255, 0.7);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .timeline-date {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .timeline-description {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
 }
 
 /* 教育背景样式 */
 .education-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .education-card h3 {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .education-card h4 {
-  color: rgba(0, 255, 255, 0.7);
+  color: #42b883;
   margin-bottom: 0.5rem;
 }
 
 .education-card p {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {

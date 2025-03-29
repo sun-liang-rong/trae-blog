@@ -60,7 +60,7 @@ onMounted(() => {
     size: 2,
     color: 0x63b3ed,
     transparent: true,
-    opacity: 0.8
+    opacity: 1
   })
 
   const particles = new THREE.Points(geometry, material)

@@ -1,0 +1,32 @@
+/* assets/css/code.css */
+.code-block-wrapper {
+  position: relative;
+  margin: 1rem 0;
+}
+pre {
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 15px;
+}
+.code-block-wrapper:hover .copy-button {
+  opacity: 1;
+}
+
+.copy-button {
+  position: absolute;
+  font-size: 0.8rem;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  background: var(--card-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: var(--primary-color);
+}
+
+.copy-button:hover {
+  background: var(--card-bg);
+}

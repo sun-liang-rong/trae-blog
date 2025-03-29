@@ -15,7 +15,7 @@
     <!-- 热门标签云 -->
     <div class="tags-card card">
       <h3 class="card-title">热门标签</h3>
-      <div class="tags-cloud">
+      <div class="tags-cloud" v-if="!loading">
         <a 
           v-for="tag in tagsList" 
           :key="tag.id" 
@@ -61,21 +61,22 @@ const tags = ref([
 ])
 
 const tagsList = ref([]);
-const getTagList = async () => {
-  // 文章列表数据
-  const {
-    data: tagData,
-    pending: loading,
-    error,
-  } = await useFetch("/api/tags/blogIndex", {
+const loading = ref(true);
+const error = ref(null);
+try {
+  const response = await $fetch("/api/tags/blogIndex", {
     method: "GET"
   });
-  console.log(tagData.value, loading, error);
-  if (tagData.value?.code === 200) {
-    tagsList.value = tagData.value.data;
+  console.log(response);
+  if (response?.code === 200) {
+    tagsList.value = response.data;
   }
-};
-await getTagList();
+} catch (err) {
+  error.value = err;
+  console.error("获取标签列表失败:", err);
+} finally {
+  loading.value = false;
+}
 </script>
 
 <style scoped>
@@ -88,31 +89,35 @@ await getTagList();
 
 .card {
   background: var(--card-bg);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  padding: 1.8rem;
   box-shadow: var(--card-shadow);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(67, 97, 238, 0.05);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 15px 30px rgba(67, 97, 238, 0.12);
+  border-color: rgba(67, 97, 238, 0.1);
 }
 
 .card-title {
   font-size: 1.25rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   color: var(--primary-color);
   position: relative;
   padding-bottom: 0.5rem;
+  text-align: center;
 }
 
 .card-title::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
   height: 3px;
   background-color: var(--accent-color);
   border-radius: 3px;
@@ -121,68 +126,125 @@ await getTagList();
 /* 个人简介卡片 */
 .profile-card {
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  right: -50px;
+  height: 100px;
+  background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(255, 107, 107, 0.1));
+  transform: rotate(-5deg);
+  z-index: 0;
 }
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   border: 3px solid var(--accent-color);
-  padding: 3px;
+  padding: 4px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover .avatar {
+  transform: scale(1.05);
 }
 
 .name {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--primary-color);
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
 }
 
 .bio {
   color: var(--text-secondary);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+  padding: 0 0.5rem;
 }
 
 .social-links {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .social-link {
   color: var(--text-primary);
   padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  border-radius: var(--radius-full);
+  background-color: rgba(67, 97, 238, 0.08);
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .social-link:hover {
   background-color: var(--accent-color);
   color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
 }
 
 /* 标签云 */
 .tags-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.85rem;
+  justify-content: center;
 }
 
 .tag-item {
-  font-size: 20px;
+  font-size: 0.9rem;
   display: inline-block;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
   color: white;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tag-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
 }
 
 .tag-item:hover {
-  transform: scale(1.05);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.tag-item:hover::before {
+  transform: translateX(0);
 }
 
 /* 评论列表 */

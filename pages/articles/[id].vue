@@ -13,15 +13,38 @@
         
         <!-- 元信息展示区 -->
         <div class="meta">
-          <span class="tag" v-for="item in tags" :key="item.id" :style="{ backgroundColor: item.tagCOlor }">{{ item.tagName }}</span>
-          <span class="date">{{ article.createTime }}</span>
-          <span class="read-time">{{ article.readTime }}分钟阅读</span>
-          <span class="views">👁 {{ article.views }}次阅读</span>
+          <div class="meta-tags">
+            <span class="tag" v-for="item in tags" :key="item.id" :style="{ backgroundColor: item.tagC }">{{ item.tagName }}</span>
+          </div>
+          <div class="meta-info">
+            <span class="date">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              {{ formatDate(article.createTime0) }}
+            </span>
+            <!-- <span class="read-time">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {{ article.readTime }}分钟阅读
+            </span> -->
+            <span class="views">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              {{ article.readingNum }}次阅读
+            </span>
+          </div>
         </div>
 
         <!-- 文章内容渲染区 -->
-        <div class="content" ref="contentRef">
-          <pre class="hljs"><code v-html="highlightedCode" /></pre>
+        <div v-if="!loading" class="content" ref="contentRef" v-html="article.content">
         </div>
         
         <!-- 分享按钮组 -->
@@ -87,31 +110,66 @@ import gsap from 'gsap'
 import { marked } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css' // 代码高亮的样式
+import dayjs from 'dayjs'
 const route = useRoute()
 const router = useRouter()
-
+const formatDate = (date) => {
+  return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
+}
+// 初始化高亮库
+hljs.configure({
+  ignoreUnescapedHTML: true, // 避免高亮库与 marked 的 sanitize 冲突
+  languages: ['javascript', 'html', 'css'] // 预加载语言
+});
 // 文章数据
 const article = ref({})
-const getArticleDetail = async () => {
-  // 文章列表数据
-  const {
-    data: detail,
-    pending: loading,
-    error,
-  } = await useFetch("/api/articles/detail?articleId=" + route.params.id, {
+const loading = ref(true)
+  $fetch("/api/articles/detail?articleId=" + route.params.id, {
     method: "GET"
-  });
-  console.log(detail.value, loading, error);
-  if (detail.value?.code === 200) {
-    article.value = detail.value.data;
-    article.value.content = marked.parse(article.value.content);
-    console.log(article.value.content, 'article.value.content');
+  }).then((res) => {
+    if (res?.code === 200) {
+      console.log(res, 'res')
+    hljs.initHighlighting();
+    // 给所有的code标签添加类名 
+    const render = new marked.Renderer()
+
+    render.code = function (code, language) {
+      // 高亮代码块 
+      console.log(code, language, '1code')
+      const validLanguage = hljs.getLanguage(code.lang)? code.lang : 'plaintext'
+      // 生成唯一 ID（用于多代码块场景）
+      const uniqueId = 'code-' + Math.random().toString(36).substr(2, 9);
+      const highlighted = hljs.highlight(validLanguage, code.text).value;
+      
+      return `
+      <div class="code-block-wrapper">
+        <div class="copy-button" id="${'btn-' + uniqueId}" onclick="copyCode('${uniqueId}')">复制</div>
+        <pre id="${uniqueId}" class="hljs ${validLanguage}">${highlighted}</pre>
+      </div>
+      `
+    }
+    marked.setOptions({
+      highlight: function (code) {
+        console.log(code, 'code')
+          return hljs.highlightAuto(code).value
+      },
+      renderer: render,
+      gfm: true,
+      tables: true,
+      breaks: false,
+      pedantic: false,
+      sanitize: true,
+      smartLists: true,
+      smartypants: false,
+      
+    });
+    article.value = res.data;
+    article.value.content = marked(article.value.content)
   }
-};
-await getArticleDetail();
-const highlightedCode = computed(() => {
-  return hljs.highlight(article.value.content || 'ada', { language: 'html' }).value;
-});
+  }).finally(() => {
+    loading.value = false
+  })
+
 // 阅读进度跟踪
 const readingProgress = ref(0)
 const contentRef = ref(null)
@@ -154,7 +212,8 @@ const relatedArticles = ref([
 
 // 返回上一页
 const navigateBack = () => {
-  router.push('/')
+  // 返回上一页
+  router.go(-1)
 }
 
 // 获取标签颜色
@@ -256,10 +315,13 @@ onUnmounted(() => {
   position: fixed;
   top: 70px; /* 导航栏高度 */
   left: 0;
-  height: 3px;
-  background-color: var(--accent-color);
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   z-index: 90;
   transition: width 0.2s ease;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 1px 8px rgba(67, 97, 238, 0.3);
 }
 
 /* 主内容区 */
@@ -279,20 +341,51 @@ onUnmounted(() => {
 /* 元信息区 */
 .meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
   margin-bottom: 2rem;
   color: var(--text-secondary);
-  align-items: center;
+  font-size: 0.9rem;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.05);
+}
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.meta-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .tag {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  border-radius: var(--radius-full);
+  display: inline-flex;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
   font-size: 0.85rem;
   color: white;
   font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform var(--transition-fast);
+}
+
+.tag:hover {
+  transform: translateY(-2px);
+}
+
+.date, .read-time, .views {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* 文章内容 */
@@ -308,6 +401,7 @@ onUnmounted(() => {
 
 /* 返回按钮 */
 .back-button {
+  margin-top: var(--spacing-lg);
   background: none;
   border: 2px solid var(--primary-color);
   color: var(--primary-color);

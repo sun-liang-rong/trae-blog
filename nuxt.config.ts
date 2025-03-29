@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content'],
   components: [
     {
       path: '~/components',
@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true
   },
-  css: ['~/assets/css/global.css'],
+  css: ['~/assets/css/global.css', '~/assets/css/code.css'],
   devtools: { enabled: true },
   compatibilityDate: '2024-11-01',
   nitro: {

@@ -1,5 +1,6 @@
 <template>
   <div class="archives-page">
+    
     <div class="container">
       <h1 class="page-title">文章归档</h1>
       
@@ -29,7 +30,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// 注册GSAP插件
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+// 视差效果处理
+const handleMouseMove = (e) => {
+  if (!process.client) return;
+  
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+  const mouseX = e.clientX / window.innerWidth;
+  const mouseY = e.clientY / window.innerHeight;
+  
+  parallaxLayers.forEach((layer, index) => {
+    const depth = (index + 1) * 0.1;
+    const moveX = mouseX * depth * 50;
+    const moveY = mouseY * depth * 50;
+    layer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  });
+}
 
 // 模拟文章数据
 const articles = ref([
@@ -64,6 +88,36 @@ const groupedArticles = ref({})
 
 onMounted(() => {
   groupArticles()
+  
+  if (process.client) {
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    // 初始化动画
+    gsap.from('.page-title', {
+      y: -50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    });
+    
+    gsap.from('.timeline-item', {
+      y: 30,
+      opacity: 0,
+      stagger: 0.1,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.timeline',
+        start: 'top 80%',
+      }
+    });
+  }
+})
+
+onUnmounted(() => {
+  if (process.client) {
+    window.removeEventListener('mousemove', handleMouseMove);
+  }
 })
 
 const groupArticles = () => {
@@ -118,7 +172,8 @@ const getTagColor = (tag) => {
 .archives-page {
   padding: 2rem 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(0, 32, 63, 0.95), rgba(0, 32, 63, 0.85));
+  position: relative;
+  overflow-x: hidden;
 }
 
 .container {
@@ -129,12 +184,27 @@ const getTagColor = (tag) => {
 
 .page-title {
   font-size: 2.5rem;
-  color: rgba(0, 255, 255, 0.9);
   text-align: center;
   margin-bottom: 3rem;
   font-weight: 700;
-  text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   letter-spacing: 2px;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  border-radius: 2px;
 }
 
 .timeline {
@@ -149,8 +219,8 @@ const getTagColor = (tag) => {
   transform: translateX(-50%);
   width: 2px;
   height: 100%;
-  background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.3), transparent);
-  opacity: 0.5;
+  background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+  opacity: 0.3;
 }
 
 .timeline-year {
@@ -161,10 +231,9 @@ const getTagColor = (tag) => {
 .year-label {
   text-align: center;
   font-size: 2rem;
-  color: rgba(0, 255, 255, 0.8);
+  color: var(--primary-color);
   margin-bottom: 2rem;
   font-weight: 700;
-  text-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
   position: relative;
   z-index: 1;
 }
@@ -177,7 +246,7 @@ const getTagColor = (tag) => {
 .month-label {
   text-align: center;
   font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
   font-weight: 600;
 }
@@ -188,34 +257,33 @@ const getTagColor = (tag) => {
 }
 
 .timeline-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
   margin-bottom: 1rem;
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
 }
 
 .timeline-item:hover {
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(0, 255, 255, 0.3);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(67, 97, 238, 0.2);
+  box-shadow: 0 15px 30px rgba(67, 97, 238, 0.1);
 }
 
 .article-link {
   display: flex;
   align-items: center;
   padding: 1rem 1.5rem;
-  color: white;
+  color: var(--text-primary);
   text-decoration: none;
   gap: 1rem;
 }
 
 .article-date {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
   min-width: 80px;
 }
 
@@ -232,6 +300,59 @@ const getTagColor = (tag) => {
   color: white;
   font-weight: 500;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 视差背景 */
+.parallax-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  will-change: transform;
+  transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.layer-1 {
+  background: radial-gradient(
+      circle at 80% 20%,
+      rgba(67, 97, 238, 0.1) 0%,
+      rgba(0, 0, 0, 0) 70%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 107, 107, 0.05) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+  opacity: 0.7;
+}
+
+.layer-2 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(67,97,238,0.05)"/></svg>');
+  background-size: 100px 100px;
+  opacity: 0.3;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 768px) {
