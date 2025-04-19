@@ -1,31 +1,18 @@
-# 阶段 1：构建应用
-FROM node:18-alpine AS builder
-
-WORKDIR /app
-
-# 复制依赖文件并安装（利用 Docker 缓存）
-COPY package*.json ./
-COPY package-lock.json ./
-RUN npm install --registry=https://registry.npmmirror.com
-
-# 复制源码并构建
-COPY . .
-RUN npm run build
-
-# 阶段 2：生产环境运行
-FROM node:18-alpine AS production
-
-WORKDIR /app
-
-# 仅复制必要文件
-COPY --from=builder /app/.output ./.output
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
-
-# 设置环境变量（按需调整）
-ENV NITRO_HOST=0.0.0.0
-ENV NITRO_PORT=3000
-
-# 暴露端口并启动
+#1、基于镜像node版本
+FROM node:18.18.0-alpine
+#2、作者
+MAINTAINER sourcebyte.vip
+#3、参数，node的环境为生产环境
+ENV NODE_ENV=production
+#4、任意ip
+ENV HOST 0.0.0.0
+#5、容器内创建目录/source-bbs
+RUN mkdir -p /source-bbs
+#6、复制当前的内容到容器内容部目录/source-bbs
+COPY .output/ ./source-bbs
+#7、切换工作目录到/source-bbs
+WORKDIR /source-bbs
+#8、暴露端口3000，默认端口
 EXPOSE 3000
-CMD ["node", ".output/server/index.mjs"]
+#9、start
+CMD ["node","./server/index.mjs"]
