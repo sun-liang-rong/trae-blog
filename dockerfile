@@ -5,7 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # 复制依赖文件（利用 Docker 缓存）
-COPY package*.json ./
+COPY package.json ./
 RUN npm install --registry=https://registry.npm.taobao.org
 
 # 复制源码并构建
