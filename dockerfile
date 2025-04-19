@@ -9,7 +9,7 @@ ENV HOST 0.0.0.0
 #5、容器内创建目录/source-bbs
 RUN mkdir -p /source-bbs
 #6、复制当前的内容到容器内容部目录/source-bbs
-COPY .output/ ./source-bbs
+COPY .output/ /source-bbs
 #7、切换工作目录到/source-bbs
 WORKDIR /source-bbs
 #8、暴露端口3000，默认端口
