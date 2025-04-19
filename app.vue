@@ -114,6 +114,7 @@ onMounted(() => {
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
+  filter: blur(1rem);
 }
 
 /* 响应式调整 */

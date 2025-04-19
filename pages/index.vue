@@ -31,7 +31,7 @@
         <div>
           <div class="section-header main-section-header"> 
             <h2 class="section-title">最新文章</h2>
-            <NuxtLink to="/archives" class="view-all"
+            <NuxtLink to="/categories" class="view-all"
               >查看全部 <span class="arrow">→</span></NuxtLink
             >
           </div>

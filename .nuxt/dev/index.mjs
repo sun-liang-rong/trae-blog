@@ -283,7 +283,7 @@ const _uUw6FzPvF2D2frdBSuMujqpmtCJ9QY8QsDRySHykVw = (function(nitro) {
 
 const rootDir = "/Users/sunliangrong/Desktop/trae-blog/trae-blog";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"孙孙博客-孙孙博客是一个面向知识分享社区。自创建以来，孙孙博客一直致力并专注于打造一个纯净的技术交流社区，推动互联网分享知识，从而让更多开发者从   中受益。孙孙博客的使命是用代码改变世界。"},{"name":"format-detection","content":"telephone=no"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[{"type":"text/javascript","innerHTML":"\n            (function() {\n              console.log('全局内联脚本已加载！');\n              // 这里写你的自定义代码\n              let theme = localStorage.getItem('theme');\n              if (!theme) {\n                theme = '';\n              } else {\n                theme = theme === 'dark' ? 'dark' : 'light';\n              }\n                console.log('theme', theme)\n              // 切换主题\n              document.documentElement.setAttribute('data-theme', theme)\n              localStorage.setItem('theme', theme)\n            })();\n          ","hid":"custom-inline-script"}],"noscript":[],"title":"孙孙博客-神奇程序猿历险记"};
 
 const appRootTag = "div";
 

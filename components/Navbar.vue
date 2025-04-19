@@ -13,8 +13,6 @@
       <div class="navbar-menu" :class="{ 'is-active': isMenuActive }">
         <NuxtLink to="/" class="navbar-item" @click="closeMenu">首页</NuxtLink>
         <NuxtLink to="/categories" class="navbar-item" @click="closeMenu">分类</NuxtLink>
-        <NuxtLink to="/archives" class="navbar-item" @click="closeMenu">归档</NuxtLink>
-        <NuxtLink to="/projects" class="navbar-item" @click="closeMenu">项目</NuxtLink>
         <NuxtLink to="/about" class="navbar-item" @click="closeMenu">关于</NuxtLink>
       </div>
       

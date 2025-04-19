@@ -79,7 +79,6 @@ const toggleBookmark = () => {
   box-shadow: var(--card-shadow);
   margin-bottom: var(--spacing-xl);
   animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   border: 1px solid rgba(67, 97, 238, 0.05);
   height: 100%;

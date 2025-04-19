@@ -68,7 +68,7 @@
         </div>
         
         <!-- 上一篇/下一篇导航 -->
-        <div class="article-navigation">
+        <!-- <div class="article-navigation">
           <NuxtLink v-if="prevArticle" :to="`/articles/${prevArticle.id}`" class="nav-link prev">
             <span class="nav-direction">← 上一篇</span>
             <span class="nav-title">{{ prevArticle.title }}</span>
@@ -80,11 +80,11 @@
             <span class="nav-title">{{ nextArticle.title }}</span>
           </NuxtLink>
           <div v-else class="nav-link disabled"></div>
-        </div>
+        </div> -->
       </div>
       
       <!-- 相关文章推荐 -->
-      <div class="related-articles">
+      <!-- <div class="related-articles">
         <h3 class="section-title">相关推荐</h3>
         <div class="related-grid">
           <div v-for="(relatedArticle, index) in relatedArticles" :key="index" class="related-card">
@@ -99,7 +99,7 @@
             </NuxtLink>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
