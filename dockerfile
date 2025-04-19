@@ -6,7 +6,6 @@ WORKDIR /app
 
 # 复制依赖文件（利用 Docker 缓存）
 COPY package*.json ./
-COPY yarn.lock ./
 RUN npm install --registry=https://registry.npmmirror.com
 
 # 复制源码并构建
