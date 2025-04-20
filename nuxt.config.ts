@@ -1,4 +1,4 @@
-// import { visualizer } from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -23,18 +23,6 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' }
   },
   modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode'],
-  image: {
-    domains: ['sunsunblog.top'], // 配置允许优化的域名
-    presets: {
-      thumbnail: {
-        modifiers: {
-          format: 'webp',
-          width: 50,
-          quality: 70
-        }
-      }
-    }
-  },
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
@@ -72,12 +60,12 @@ export default defineNuxtConfig({
     build: {
       rollupOptions: {
         plugins: [
-          // visualizer({
-          //   open: true, // Automatically open the report in the browser
-          //   filename: '.nuxt/stats.html', // Output file path
-          //   gzipSize: true,
-          //   brotliSize: true,
-          // }),
+          visualizer({
+            open: true, // Automatically open the report in the browser
+            filename: '.nuxt/stats.html', // Output file path
+            gzipSize: true,
+            brotliSize: true,
+          }),
           ViteImageOptimizer({
             png: {
               // https://sharp.pixelplumbing.com/api-output#png
