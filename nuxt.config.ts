@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: 'page', mode: 'out-in' }
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode'],
   image: {
     domains: ['sunsunblog.top'], // 配置允许优化的域名
     presets: {
