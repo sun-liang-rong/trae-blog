@@ -42,7 +42,7 @@
         "../node_modules/@nuxt/schema"
       ],
       "nuxt": [
-        "../node_modules/nuxt"
+        "../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt"
       ],
       "vite/client": [
         "../node_modules/vite/client"
@@ -87,13 +87,13 @@
         "../public/*"
       ],
       "#app": [
-        "../node_modules/nuxt/dist/app"
+        "../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/app"
       ],
       "#app/*": [
-        "../node_modules/nuxt/dist/app/*"
+        "../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/app/*"
       ],
       "vue-demi": [
-        "../node_modules/nuxt/dist/app/compat/vue-demi"
+        "../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/app/compat/vue-demi"
       ],
       "#content/components": [
         "./content/components"
@@ -113,20 +113,14 @@
       "#color-mode-options": [
         "./color-mode-options.mjs"
       ],
-      "#image": [
-        "../node_modules/@nuxt/image/dist/runtime"
-      ],
-      "#image/*": [
-        "../node_modules/@nuxt/image/dist/runtime/*"
-      ],
       "#vue-router": [
-        "../node_modules/vue-router"
+        "../node_modules/.pnpm/vue-router@4.5.0_vue@3.5.13/node_modules/vue-router"
       ],
       "#imports": [
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
@@ -170,16 +164,14 @@
     "./nuxt.d.ts",
     "../.config/nuxt.*",
     "../**/*",
-    "../node_modules/@nuxtjs/tailwindcss/runtime",
-    "../node_modules/@nuxtjs/tailwindcss/dist/runtime",
+    "../node_modules/.pnpm/@nuxtjs+tailwindcss@6.13.1/node_modules/@nuxtjs/tailwindcss/runtime",
+    "../node_modules/.pnpm/@nuxtjs+tailwindcss@6.13.1/node_modules/@nuxtjs/tailwindcss/dist/runtime",
     "../node_modules/@nuxtjs/mdc/runtime",
     "../node_modules/@nuxtjs/mdc/dist/runtime",
-    "../node_modules/@nuxt/content/runtime",
-    "../node_modules/@nuxt/content/dist/runtime",
-    "../node_modules/@nuxtjs/color-mode/runtime",
-    "../node_modules/@nuxtjs/color-mode/dist/runtime",
-    "../node_modules/@nuxt/image/runtime",
-    "../node_modules/@nuxt/image/dist/runtime",
+    "../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/runtime",
+    "../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime",
+    "../node_modules/.pnpm/@nuxtjs+color-mode@3.5.2/node_modules/@nuxtjs/color-mode/runtime",
+    "../node_modules/.pnpm/@nuxtjs+color-mode@3.5.2/node_modules/@nuxtjs/color-mode/dist/runtime",
     "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/devtools/dist/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
@@ -189,24 +181,21 @@
   "exclude": [
     "../dist",
     "../node_modules",
-    "../node_modules/nuxt/node_modules",
-    "../node_modules/@nuxtjs/tailwindcss/node_modules",
+    "../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/node_modules",
+    "../node_modules/.pnpm/@nuxtjs+tailwindcss@6.13.1/node_modules/@nuxtjs/tailwindcss/node_modules",
     "../node_modules/@nuxtjs/mdc/node_modules",
-    "../node_modules/@nuxt/content/node_modules",
-    "../node_modules/@nuxtjs/color-mode/node_modules",
-    "../node_modules/@nuxt/image/node_modules",
-    "../node_modules/@nuxt/devtools/node_modules",
-    "../node_modules/@nuxt/telemetry/node_modules",
-    "../node_modules/@nuxtjs/tailwindcss/runtime/server",
-    "../node_modules/@nuxtjs/tailwindcss/dist/runtime/server",
+    "../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/node_modules",
+    "../node_modules/.pnpm/@nuxtjs+color-mode@3.5.2/node_modules/@nuxtjs/color-mode/node_modules",
+    "../node_modules/.pnpm/@nuxt+devtools@1.7.0_vite@6.3.2_vue@3.5.13/node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/.pnpm/@nuxt+telemetry@2.6.6/node_modules/@nuxt/telemetry/node_modules",
+    "../node_modules/.pnpm/@nuxtjs+tailwindcss@6.13.1/node_modules/@nuxtjs/tailwindcss/runtime/server",
+    "../node_modules/.pnpm/@nuxtjs+tailwindcss@6.13.1/node_modules/@nuxtjs/tailwindcss/dist/runtime/server",
     "../node_modules/@nuxtjs/mdc/runtime/server",
     "../node_modules/@nuxtjs/mdc/dist/runtime/server",
-    "../node_modules/@nuxt/content/runtime/server",
-    "../node_modules/@nuxt/content/dist/runtime/server",
-    "../node_modules/@nuxtjs/color-mode/runtime/server",
-    "../node_modules/@nuxtjs/color-mode/dist/runtime/server",
-    "../node_modules/@nuxt/image/runtime/server",
-    "../node_modules/@nuxt/image/dist/runtime/server",
+    "../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/runtime/server",
+    "../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/server",
+    "../node_modules/.pnpm/@nuxtjs+color-mode@3.5.2/node_modules/@nuxtjs/color-mode/runtime/server",
+    "../node_modules/.pnpm/@nuxtjs+color-mode@3.5.2/node_modules/@nuxtjs/color-mode/dist/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/devtools/dist/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",

@@ -1,6 +1,6 @@
 declare global {
-  const __buildAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/paths')['buildAssetsURL']
-  const __publicAssetsURL: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/paths')['publicAssetsURL']
+  const __buildAssetsURL: typeof import('../../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/core/runtime/nitro/paths')['buildAssetsURL']
+  const __publicAssetsURL: typeof import('../../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/core/runtime/nitro/paths')['publicAssetsURL']
   const appendCorsHeaders: typeof import('../../node_modules/h3')['appendCorsHeaders']
   const appendCorsPreflightHeaders: typeof import('../../node_modules/h3')['appendCorsPreflightHeaders']
   const appendHeader: typeof import('../../node_modules/h3')['appendHeader']
@@ -20,7 +20,7 @@ declare global {
   const createEventStream: typeof import('../../node_modules/h3')['createEventStream']
   const createRouter: typeof import('../../node_modules/h3')['createRouter']
   const defaultContentType: typeof import('../../node_modules/h3')['defaultContentType']
-  const defineAppConfig: typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
+  const defineAppConfig: typeof import('../../node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/core/runtime/nitro/config')['defineAppConfig']
   const defineCachedEventHandler: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['defineCachedEventHandler']
   const defineCachedFunction: typeof import('../../node_modules/nitropack/dist/runtime/internal/cache')['defineCachedFunction']
   const defineEventHandler: typeof import('../../node_modules/h3')['defineEventHandler']
@@ -84,10 +84,10 @@ declare global {
   const parseMarkdown: typeof import('../../node_modules/@nuxtjs/mdc/dist/runtime/parser')['parseMarkdown']
   const promisifyNodeListener: typeof import('../../node_modules/h3')['promisifyNodeListener']
   const proxyRequest: typeof import('../../node_modules/h3')['proxyRequest']
-  const queryCollection: typeof import('../../node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionWithEvent']
-  const queryCollectionItemSurroundings: typeof import('../../node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionItemSurroundingsWithEvent']
-  const queryCollectionNavigation: typeof import('../../node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionNavigationWithEvent']
-  const queryCollectionSearchSections: typeof import('../../node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionSearchSectionsWithEvent']
+  const queryCollection: typeof import('../../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionWithEvent']
+  const queryCollectionItemSurroundings: typeof import('../../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionItemSurroundingsWithEvent']
+  const queryCollectionNavigation: typeof import('../../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionNavigationWithEvent']
+  const queryCollectionSearchSections: typeof import('../../node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/nitro')['queryCollectionSearchSectionsWithEvent']
   const readBody: typeof import('../../node_modules/h3')['readBody']
   const readFormData: typeof import('../../node_modules/h3')['readFormData']
   const readMultipartFormData: typeof import('../../node_modules/h3')['readMultipartFormData']
@@ -143,8 +143,8 @@ export { useEvent } from 'nitropack/runtime/internal/context';
 export { defineTask, runTask } from 'nitropack/runtime/internal/task';
 export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils';
 export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
-export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/nuxt/dist/core/runtime/nitro/paths';
-export { defineAppConfig } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/nuxt/dist/core/runtime/nitro/config';
-export { queryCollectionWithEvent as queryCollection, queryCollectionSearchSectionsWithEvent as queryCollectionSearchSections, queryCollectionNavigationWithEvent as queryCollectionNavigation, queryCollectionItemSurroundingsWithEvent as queryCollectionItemSurroundings } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/@nuxt/content/dist/runtime/nitro';
+export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/core/runtime/nitro/paths';
+export { defineAppConfig } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/.pnpm/nuxt@3.15.4_typescript@5.8.3_vite@6.3.2/node_modules/nuxt/dist/core/runtime/nitro/config';
+export { queryCollectionWithEvent as queryCollection, queryCollectionSearchSectionsWithEvent as queryCollectionSearchSections, queryCollectionNavigationWithEvent as queryCollectionNavigation, queryCollectionItemSurroundingsWithEvent as queryCollectionItemSurroundings } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/.pnpm/@nuxt+content@3.4.0_typescript@5.8.3/node_modules/@nuxt/content/dist/runtime/nitro';
 export { parseMarkdown } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/@nuxtjs/mdc/dist/runtime/parser';
 export { stringifyMarkdown } from '/Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/@nuxtjs/mdc/dist/runtime/stringify';
