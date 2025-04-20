@@ -33,5 +33,7 @@ export { queryCollection, queryCollectionSearchSections, queryCollectionNavigati
 export { flatUnwrap as unwrapSlot } from '../node_modules/@nuxtjs/mdc/dist/runtime/utils/node';
 export { parseMarkdown } from '../node_modules/@nuxtjs/mdc/dist/runtime/parser';
 export { stringifyMarkdown } from '../node_modules/@nuxtjs/mdc/dist/runtime/stringify';
+export { useColorMode } from '../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
+export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';

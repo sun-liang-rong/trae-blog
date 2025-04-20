@@ -6,44 +6,8 @@
         <FeaturedSlider />
       </div>
     </div>
-
     <div class="container">
-      <!-- 技术栈展示区 -->
-      <!-- <div class="tech-showcase-wrapper">
-        <h2 class="section-title tech-title">技术栈</h2>
-        <div class="tech-showcase">
-          <div
-            class="tech-item"
-            v-for="(tech, index) in techStack"
-            :key="index"
-            :style="{ '--delay': `${index * 0.1}s` }"
-          >
-            <div class="tech-icon" :style="{ backgroundColor: tech.color }">
-              <span>{{ tech.icon }}</span>
-            </div>
-            <span class="tech-name">{{ tech.name }}</span>
-            <div class="tech-glow"></div>
-          </div>
-        </div>
-      </div> -->
-
       <div class="home-content">
-        <div>
-          <div class="section-header main-section-header"> 
-            <h2 class="section-title">最新文章</h2>
-            <NuxtLink to="/categories" class="view-all"
-              >查看全部 <span class="arrow">→</span></NuxtLink
-            >
-          </div>
-          <div class="articles-grid" v-if="!loading">
-              <ArticleCard
-                v-for="article in articlesList"
-                :key="article.id"
-                :article="article"
-                class="article-card-wrapper"
-              />
-            </div>
-        </div>
         <div class="content-layout">
           <!-- 侧边栏 -->
           <div class="sidebar-area">
@@ -51,11 +15,22 @@
           </div>
         </div>
       </div>
+      <div>
+          <div class="section-header main-section-header">
+            <h2 class="section-title">最新文章</h2>
+            <NuxtLink to="/categories" class="view-all">查看全部 <span class="arrow">→</span></NuxtLink>
+          </div>
+          <div class="articles-grid">
+            <ArticleCard v-for="article in articlesList" :key="article.id" :article="article"
+              class="article-card-wrapper" />
+          </div>
+        </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -63,10 +38,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 if (process.client) {
   gsap.registerPlugin(ScrollTrigger);
 }
-console.log(1111)
+
 // 个人资料数据
 const profile = ref({
-  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  avatar: "/assets/images/happyCat.png",
   name: "技术博主",
   bio: "专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。",
   links: [
@@ -85,17 +60,12 @@ const techStack = ref([
   { name: "Three.js", icon: "3D", color: "#6b4bb3" },
   { name: "CSS", icon: "🎨", color: "#2965f1" },
   { name: "WebGL", icon: "🌐", color: "#990000" },
-  { name: "Nuxt", icon: "N", color: "#00dc82" },
-]);
-
-
-  // 文章列表数据
-// 替换后的文章列表数据请求
+])
 const loading = ref(true)
 const error = ref(null)
 const articlesList = ref([])
 try {
-  const data = await $fetch("/api/articles/blogIndex", {method: "GET"})
+  const data = await $fetch("/api/articles/blogIndex", { method: "GET" })
   articlesList.value = data.data;
   console.log(articlesList.value, data, '------data')
 } catch (err) {
@@ -108,7 +78,6 @@ try {
 .home-page {
   width: 100%;
   position: relative;
-  overflow-x: hidden;
 }
 
 /* 视差背景 */
@@ -133,16 +102,12 @@ try {
 }
 
 .layer-1 {
-  background: radial-gradient(
-      circle at 80% 20%,
+  background: radial-gradient(circle at 80% 20%,
       rgba(12, 80, 120, 0.2) 0%,
-      rgba(0, 0, 0, 0) 70%
-    ),
-    radial-gradient(
-      circle at 20% 80%,
+      rgba(0, 0, 0, 0) 70%),
+    radial-gradient(circle at 20% 80%,
       rgba(255, 107, 107, 0.1) 0%,
-      rgba(0, 0, 0, 0) 70%
-    );
+      rgba(0, 0, 0, 0) 70%);
   opacity: 0.7;
   transform: translateZ(-10px) scale(2);
 }
@@ -155,11 +120,9 @@ try {
 }
 
 .layer-3 {
-  background: linear-gradient(
-    135deg,
-    rgba(0, 32, 63, 0.1) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 32, 63, 0.1) 0%,
+      rgba(0, 0, 0, 0) 100%);
   backdrop-filter: blur(5px);
   transform: translateZ(-2px) scale(1.2);
 }
@@ -179,11 +142,9 @@ try {
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: var(--spacing-md);
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--accent-color)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--accent-color));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -220,8 +181,7 @@ try {
 }
 
 /* 技术栈展示 */
-.tech-showcase-wrapper {
-}
+.tech-showcase-wrapper {}
 
 .tech-title {
   text-align: center;
@@ -267,14 +227,19 @@ try {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
   animation: rotate 15s linear infinite;
   z-index: 0;
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .tech-item {
@@ -321,7 +286,7 @@ try {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0) 60%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 60%);
   z-index: 1;
 }
 
@@ -348,7 +313,7 @@ try {
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
   opacity: 0;
   transition: all 0.5s ease;
   z-index: -1;
@@ -363,7 +328,7 @@ try {
 /* 主内容区 */
 .home-content {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* 主内容区2/3，侧边栏1/3 */
+  /* 主内容区2/3，侧边栏1/3 */
   gap: var(--spacing-xl);
   position: relative;
 }
@@ -439,7 +404,8 @@ try {
 
 .articles-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 主内容区2列 */
+  grid-template-columns: repeat(2, 1fr);
+  /* 主内容区2列 */
   gap: var(--spacing-xl);
   position: relative;
   margin-top: var(--spacing-md);
@@ -460,11 +426,9 @@ try {
 .subscribe-banner {
   margin-top: var(--spacing-xxl);
   padding: var(--spacing-xl);
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    rgba(42, 59, 79, 0.8)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      rgba(42, 59, 79, 0.8));
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
@@ -553,11 +517,13 @@ try {
 /* 响应式调整 */
 @media (max-width: 1024px) {
   .home-content {
-    grid-template-columns: 1.5fr 1fr; /* 调整比例 */
+    grid-template-columns: 1fr 1fr;
+    /* 调整比例 */
   }
 
   .articles-grid {
-    grid-template-columns: 1fr; /* 平板上改为单列 */
+    grid-template-columns: 1fr;
+    /* 平板上改为单列 */
   }
 
   .animated-title {
@@ -567,11 +533,13 @@ try {
 
 @media (max-width: 768px) {
   .home-content {
-    grid-template-columns: 1fr; /* 移动端单列布局 */
+    grid-template-columns: 1fr;
+    /* 移动端单列布局 */
   }
 
   .sidebar-area {
-    order: -1; /* 侧边栏移到顶部 */
+    order: -1;
+    /* 侧边栏移到顶部 */
   }
 
   .animated-title {
@@ -591,11 +559,11 @@ try {
     font-size: 1rem;
     border-radius: 12px;
   }
-  
+
   .tech-name {
     font-size: 0.85rem;
   }
-  
+
   .tech-item {
     padding: 0.8rem;
   }
@@ -624,20 +592,20 @@ try {
     font-size: 0.8rem;
     border-radius: 8px;
   }
-  
+
   .tech-name {
     font-size: 0.75rem;
   }
-  
+
   .tech-item {
     padding: 0.5rem;
   }
-  
+
   .tech-title {
     font-size: 1.5rem;
     margin-bottom: 0.8rem;
   }
-  
+
   .tech-title::after {
     bottom: -5px;
     width: 50px;
@@ -651,6 +619,7 @@ try {
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -661,6 +630,7 @@ try {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -671,6 +641,7 @@ try {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -681,9 +652,11 @@ try {
   0% {
     text-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
   }
+
   50% {
     text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
   }
+
   100% {
     text-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
   }
@@ -694,10 +667,12 @@ try {
     width: 0;
     left: 50%;
   }
+
   50% {
     width: 100%;
     left: 0;
   }
+
   100% {
     width: 0;
     left: 50%;

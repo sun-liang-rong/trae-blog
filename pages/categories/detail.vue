@@ -1,7 +1,7 @@
 <template>
   <div class="category-articles-page">
     <div class="container">
-      <div v-if="!loading">
+      <div>
         <div class="articles-section">
           <div class="section-header">
             <h2 class="section-title">文章列表</h2>
@@ -70,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -78,9 +78,9 @@ const loading = ref(true)
 const error = ref(null)
 const articles = ref([])
 
-// 分页相关
-const currentPage = ref(1)
-const pageSize = 9 // 每页显示的文章数量
+// 分页相关 (未实现)
+// const currentPage = ref(1)
+// const pageSize = 9 // 每页显示的文章数量
 const sortBy = ref('newest') // 排序方式：newest 或 popular
 
 // 获取分类和文章数据
@@ -91,7 +91,6 @@ async function fetchCategoryData() {
   try {
     // 获取分类信息和该分类下的文章
     const id = route.query.id
-    console.log(route.query)
     const res = await $fetch(`/api/tags/findTag?id=${id}`, {
       method: 'GET'
     })

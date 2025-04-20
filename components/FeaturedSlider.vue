@@ -1,13 +1,20 @@
 <template>
-  <div class="featured-slider" v-if="!loading">
+  <div class="featured-slider">
     <div class="slider-container" ref="sliderContainer">
       <div 
         v-for="(article, index) in featuredArticles" 
         :key="article.id"
         class="slide"
         :class="{ 'active': currentIndex === index }"
-        :style="{ backgroundImage: `url(${'/api' + article.coverImage})` }"
       >
+        <img 
+          :src="article.coverImage ? '/api' + article.coverImage : '/_nuxt/assets/images/cover.png'" 
+          :alt="article.title + ' cover'" 
+          class="slide-background-image" 
+          loading="lazy"
+          width="1200" 
+          height="500"
+        />
         <div class="slide-overlay">
           <div class="slide-content">
             <div class="tag-container">
@@ -57,7 +64,6 @@
 
 <script setup>
 import { ref,onMounted, onBeforeUnmount } from 'vue'
-import gsap from 'gsap'
 
 const props = defineProps({
   autoplay: {
@@ -74,7 +80,6 @@ const currentIndex = ref(0)
 const sliderContainer = ref(null)
 let autoplayTimer = null
 const featuredArticles = ref([])
-const loading = ref(true)
 $fetch('/api/articles/carousel', {
   method: 'GET'
 })
@@ -83,8 +88,6 @@ $fetch('/api/articles/carousel', {
   })
   .catch(data => {
     console.error('Error:', data)
-  }).finally(() => {
-    loading.value = false
   })
 // carousel
 const nextSlide = () => {
@@ -110,18 +113,6 @@ const startAutoplay = () => {
 const stopAutoplay = () => {
   if (autoplayTimer) {
     clearInterval(autoplayTimer)
-  }
-}
-
-const getTagColor = (tag) => {
-  switch(tag) {
-    case 'Nuxt': return '#42b883';
-    case 'Three.js': return '#6b4bb3';
-    case 'Vue': return '#3eaf7c';
-    case 'JavaScript': return '#f7df1e';
-    case 'CSS': return '#2965f1';
-    case 'HTML': return '#e34c26';
-    default: return '#cccccc';
   }
 }
 
@@ -175,19 +166,28 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
+  /* background-size: cover; */
+  /* background-position: center; */
   opacity: 0;
   transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   transform: scale(0.9) translateZ(-100px);
-  filter: brightness(0.8) blur(5px);
+  overflow: hidden; /* Ensure image stays within bounds */
+}
+
+.slide-background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the slide area */
+  z-index: -1; /* Place behind the overlay */
 }
 
 .slide.active {
   opacity: 1;
   transform: scale(1) translateZ(0);
   z-index: 1;
-  filter: brightness(1) blur(0);
 }
 
 .slide-overlay {
@@ -196,10 +196,6 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, 
-    rgba(0,0,0,0.1) 0%, 
-    rgba(0,0,0,0.4) 50%,
-    rgba(0,0,0,0.8) 100%);
   display: flex;
   align-items: center;
   justify-content: center;

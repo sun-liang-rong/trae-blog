@@ -59,8 +59,8 @@
   --z-tooltip: 120;
 }
 
-/* 深色模式变量 */
-[data-theme="dark"] {
+/* 深色模式变量 - 由 @nuxtjs/color-mode 控制 */
+html[data-theme="dark"] {
   --primary-color: #4361EE;
   --secondary-color: #1F2937;
   --accent-color: #FF6B6B;

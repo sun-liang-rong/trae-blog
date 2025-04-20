@@ -2,7 +2,7 @@
   <div class="categories-page">
     <div class="container">
       <h1 class="page-title">文章分类</h1>
-      <div class="categories-grid" v-if="!loading">
+      <div class="categories-grid">
         <div v-for="(category, index) in categories" :key="category.id" class="category-card" :style="{ '--index': index }">
           <div class="card-content" :style="{ '--accent-color': category.tagColor, '--gradient-start': getGradientColors(category.tagColor).start, '--gradient-end': getGradientColors(category.tagColor).end }">
             <div class="category-icon">
@@ -159,7 +159,6 @@ const categories = ref([])
 try {
   const res = await $fetch("/api/tags/blogTagAndarticle", {method: "GET"})
   categories.value = res.data;
-  console.log(articlesList.value, res, '------data')
 } catch (err) {
   error.value = err
 } finally {

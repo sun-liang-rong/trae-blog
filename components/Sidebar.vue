@@ -2,7 +2,7 @@
   <div class="sidebar">
     <!-- 个人简介模块 -->
     <div class="profile-card card">
-      <img :src="profile.avatar" class="avatar" alt="Profile Avatar" />
+      <img src="/assets/images/happyCat.png" class="avatar" alt="Profile Avatar" />
       <h2 class="name">{{ profile.name }}</h2>
       <p class="bio">{{ profile.bio }}</p>
       <div class="social-links">
@@ -15,11 +15,11 @@
     <!-- 热门标签云 -->
     <div class="tags-card card">
       <h3 class="card-title">热门标签</h3>
-      <div class="tags-cloud" v-if="!loading">
+      <div class="tags-cloud">
         <a 
           v-for="tag in tagsList" 
           :key="tag.id" 
-          href="#" 
+          @click="handleTagClick(tag)"
           class="tag-item"
           :style="{ backgroundColor: tag.tagColor }"
         >
@@ -32,12 +32,12 @@
 
 <script setup>
 import { ref } from 'vue'
-
+const router = useRouter();
 const props = defineProps({
   profile: {
     type: Object,
     default: () => ({
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
+      avatar: '/assets/images/happyCat.png',
       name: '技术博主',
       bio: '专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。',
       links: [
@@ -49,16 +49,10 @@ const props = defineProps({
   }
 })
 
-const tags = ref([
-  { name: 'Nuxt', count: 12, size: 1.4 },
-  { name: 'Vue', count: 18, size: 1.6 },
-  { name: 'Three.js', count: 8, size: 1.2 },
-  { name: 'JavaScript', count: 24, size: 1.8 },
-  { name: 'CSS', count: 15, size: 1.5 },
-  { name: 'HTML', count: 10, size: 1.3 },
-  { name: 'WebGL', count: 6, size: 1.1 },
-  { name: 'TypeScript', count: 14, size: 1.4 }
-])
+const handleTagClick = (tag) => {
+  // 在这里添加跳转逻辑
+  router.push('categories')
+}
 
 const tagsList = ref([]);
 const loading = ref(true);
@@ -67,7 +61,6 @@ try {
   const response = await $fetch("/api/tags/blogIndex", {
     method: "GET"
   });
-  console.log(response);
   if (response?.code === 200) {
     tagsList.value = response.data;
   }
@@ -80,9 +73,10 @@ try {
 </script>
 
 <style scoped>
+
 .sidebar {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   gap: 2rem;
   width: 100%;
 }
@@ -361,6 +355,7 @@ try {
 /* 响应式设计 */
 @media (max-width: 768px) {
   .sidebar {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1rem;
@@ -373,6 +368,7 @@ try {
 
 @media (max-width: 576px) {
   .sidebar {
+    display: flex;
     flex-direction: column;
   }
   

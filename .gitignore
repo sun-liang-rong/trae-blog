@@ -21,3 +21,8 @@ logs
 .env
 .env.*
 !.env.example
+sudo yum -y install https://repo.mysql.com//mysql80-community-release-el8-9.noarch.rpm
+
+qJH0A=egRvlA
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '自己的新密码'

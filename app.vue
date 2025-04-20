@@ -1,7 +1,7 @@
 <template>
-  <div :class="{ 'dark': theme === 'dark' }">
+  <div>
     <NuxtRouteAnnouncer />
-    <div id="particle-container" />
+    <div id="particle-container"></div>
     <Navbar />
     <main class="main-content">
       <NuxtPage />
@@ -10,31 +10,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from 'vue'
+import { onMounted, } from 'vue'
 import * as THREE from 'three'
-import { gsap } from 'gsap'
-
-const theme = ref('light')
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
-  if (process.client) {
-    localStorage.setItem('theme', theme.value)
-  }
-}
-
-onMounted(() => {
-  if (process.client) {
-    theme.value = localStorage.getItem('theme') || 'light'
-  }
-})
-
-// 提供主题状态和切换方法给子组件
-provide('theme', theme)
-provide('toggleTheme', toggleTheme)
-
-const greeting = ref('欢迎来到我的技术博客')
 
 onMounted(() => {
   // 初始化3D粒子系统
@@ -75,15 +52,6 @@ onMounted(() => {
     renderer.render(scene, camera)
   }
   animate()
-
-  // GSAP标题动画
-  gsap.from('.animated-title', {
-    duration: 1.5,
-    opacity: 0,
-    y: 100,
-    ease: 'power4.out',
-    delay: 0.5
-  })
 })
 </script>
 

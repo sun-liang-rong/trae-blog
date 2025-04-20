@@ -1,4 +1,4 @@
-import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { getRequestHeader, setResponseStatus, setResponseHeader, send, getRequestHeaders, setResponseHeaders, getRequestURL, sendRedirect, getResponseHeader, eventHandler, getRouterParam, defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, getResponseStatus, setHeaders, proxyRequest, createError, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getQuery as getQuery$1, getResponseStatusText } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/h3/dist/index.mjs';
+import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { getRequestHeader, setResponseStatus, setResponseHeader, send, getRequestHeaders, setResponseHeaders, getRequestURL, sendRedirect, getResponseHeader, eventHandler, getRouterParam, defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, getResponseStatus, setHeaders, proxyRequest, createError, readBody, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getQuery as getQuery$1, getResponseStatusText } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import { parentPort, threadId } from 'node:worker_threads';
@@ -29,6 +29,8 @@ import { captureRawStackTrace, parseRawStackTrace } from 'file:///Users/sunliang
 import { isVNode, unref, version } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/vue/index.mjs';
 import { isAbsolute } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/pathe/dist/index.mjs';
 import localAdapter from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/db0/dist/connectors/better-sqlite3.mjs';
+import { fileURLToPath } from 'node:url';
+import { ipxFSStorage, ipxHttpStorage, createIPX, createIPXH3Handler } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/ipx/dist/index.mjs';
 import { createServerHead as createServerHead$1, CapoPlugin } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/unhead/dist/index.mjs';
 import { defineHeadPlugin } from 'file:///Users/sunliangrong/Desktop/trae-blog/trae-blog/node_modules/@unhead/shared/dist/index.mjs';
 
@@ -264,7 +266,7 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
-const script = `
+const script$1 = `
 if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
   Object.defineProperty(window, '__NUXT_DEVTOOLS_TIME_METRIC__', {
     value: {},
@@ -277,13 +279,13 @@ window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 
 const _uUw6FzPvF2D2frdBSuMujqpmtCJ9QY8QsDRySHykVw = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
-    htmlContext.head.push(`<script>${script}<\/script>`);
+    htmlContext.head.push(`<script>${script$1}<\/script>`);
   });
 });
 
 const rootDir = "/Users/sunliangrong/Desktop/trae-blog/trae-blog";
 
-const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"孙孙博客-孙孙博客是一个面向知识分享社区。自创建以来，孙孙博客一直致力并专注于打造一个纯净的技术交流社区，推动互联网分享知识，从而让更多开发者从   中受益。孙孙博客的使命是用代码改变世界。"},{"name":"format-detection","content":"telephone=no"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[{"type":"text/javascript","innerHTML":"\n            (function() {\n              console.log('全局内联脚本已加载！');\n              // 这里写你的自定义代码\n              let theme = localStorage.getItem('theme');\n              if (!theme) {\n                theme = '';\n              } else {\n                theme = theme === 'dark' ? 'dark' : 'light';\n              }\n                console.log('theme', theme)\n              // 切换主题\n              document.documentElement.setAttribute('data-theme', theme)\n              localStorage.setItem('theme', theme)\n            })();\n          ","hid":"custom-inline-script"}],"noscript":[],"title":"孙孙博客-神奇程序猿历险记"};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"孙孙博客-孙孙博客是一个面向知识分享社区。自创建以来，孙孙博客一直致力并专注于打造一个纯净的技术交流社区，推动互联网分享知识，从而让更多开发者从   中受益。孙孙博客的使命是用代码改变世界。"},{"name":"format-detection","content":"telephone=no"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[],"noscript":[],"title":"孙孙博客-神奇程序猿历险记"};
 
 const appRootTag = "div";
 
@@ -369,9 +371,18 @@ function onConsoleLog(callback) {
   consola$1.wrapConsole();
 }
 
+const script = "\"use strict\";(()=>{const t=window,e=document.documentElement,c=[\"dark\",\"light\"],n=getStorageValue(\"localStorage\",\"nuxt-color-mode\")||\"system\";let i=n===\"system\"?u():n;const r=e.getAttribute(\"data-color-mode-forced\");r&&(i=r),l(i),t[\"__NUXT_COLOR_MODE__\"]={preference:n,value:i,getColorScheme:u,addColorScheme:l,removeColorScheme:d};function l(o){const s=\"\"+o+\"\",a=\"theme\";e.classList?e.classList.add(s):e.className+=\" \"+s,a&&e.setAttribute(\"data-\"+a,o)}function d(o){const s=\"\"+o+\"\",a=\"theme\";e.classList?e.classList.remove(s):e.className=e.className.replace(new RegExp(s,\"g\"),\"\"),a&&e.removeAttribute(\"data-\"+a)}function f(o){return t.matchMedia(\"(prefers-color-scheme\"+o+\")\")}function u(){if(t.matchMedia&&f(\"\").media!==\"not all\"){for(const o of c)if(f(\":\"+o).matches)return o}return\"light\"}})();function getStorageValue(t,e){switch(t){case\"localStorage\":return window.localStorage.getItem(e);case\"sessionStorage\":return window.sessionStorage.getItem(e);case\"cookie\":return getCookie(e);default:return null}}function getCookie(t){const c=(\"; \"+window.document.cookie).split(\"; \"+t+\"=\");if(c.length===2)return c.pop()?.split(\";\").shift()}";
+
+const _APRFCJxluP1tv55hAFvS9PrYaBfI1SQcUpqBVXPCmoI = (function(nitro) {
+  nitro.hooks.hook("render:html", (htmlContext) => {
+    htmlContext.head.push(`<script>${script}<\/script>`);
+  });
+});
+
 const plugins = [
   _uUw6FzPvF2D2frdBSuMujqpmtCJ9QY8QsDRySHykVw,
-_Jzh7AfTBH9DJctaXxSyCo2yhHug9eTQb0SBkkYRhUk
+_Jzh7AfTBH9DJctaXxSyCo2yhHug9eTQb0SBkkYRhUk,
+_APRFCJxluP1tv55hAFvS9PrYaBfI1SQcUpqBVXPCmoI
 ];
 
 const _N877xC = eventHandler(async (event) => {
@@ -803,6 +814,20 @@ const _inlineRuntimeConfig = {
       "filename": "/Users/sunliangrong/Desktop/trae-blog/trae-blog/.data/content/contents.sqlite"
     },
     "integrityCheck": true
+  },
+  "ipx": {
+    "baseURL": "/_ipx",
+    "alias": {},
+    "fs": {
+      "dir": [
+        "/Users/sunliangrong/Desktop/trae-blog/trae-blog/public"
+      ]
+    },
+    "http": {
+      "domains": [
+        "sunsunblog.top"
+      ]
+    }
   }
 };
 const envOptions = {
@@ -1547,12 +1572,31 @@ const _6VwrFe = eventHandler(async (event) => {
   return loadDatabaseAdapter(conf).all(sql);
 });
 
+const _j2tiN4 = lazyEventHandler(() => {
+  const opts = useRuntimeConfig().ipx || {};
+  const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
+  const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
+  const httpStorage = opts.http?.domains ? ipxHttpStorage({ ...opts.http }) : void 0;
+  if (!fsStorage && !httpStorage) {
+    throw new Error("IPX storage is not configured!");
+  }
+  const ipxOptions = {
+    ...opts,
+    storage: fsStorage || httpStorage,
+    httpStorage
+  };
+  const ipx = createIPX(ipxOptions);
+  const ipxHandler = createIPXH3Handler(ipx);
+  return useBase(opts.baseURL, ipxHandler);
+});
+
 const _lazy__L04QC = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
   { route: '/__nuxt_error', handler: _lazy__L04QC, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_content/:collection/sql_dump', handler: _N877xC, lazy: false, middleware: false, method: undefined },
   { route: '/__nuxt_content/:collection/query', handler: _6VwrFe, lazy: false, middleware: false, method: undefined },
+  { route: '/_ipx/**', handler: _j2tiN4, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy__L04QC, lazy: true, middleware: false, method: undefined }
 ];
 

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nuxt/content": "^3.4.0",
+    "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@tweenjs/tween.js": "^25.0.0",
     "dayjs": "^1.11.13",
@@ -21,5 +22,9 @@
     "three": "^0.174.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "rollup-plugin-visualizer": "^5.14.0",
+    "vite-plugin-image-optimizer": "^1.1.8"
   }
 }

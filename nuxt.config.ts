@@ -1,3 +1,5 @@
+// import { visualizer } from 'rollup-plugin-visualizer';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -15,35 +17,35 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ],
-      // 全局内联脚本
-      // 注意：这是全局的，会在页面加载时执行
-      // 如果你想在页面加载时执行一些自定义的 JavaScript 代码，你可以使用这个选项
-      script: [
-        {
-          type: 'text/javascript',
-          innerHTML: `
-            (function() {
-              console.log('全局内联脚本已加载！');
-              // 这里写你的自定义代码
-              let theme = localStorage.getItem('theme');
-              if (!theme) {
-                theme = '';
-              } else {
-                theme = theme === 'dark' ? 'dark' : 'light';
-              }
-                console.log('theme', theme)
-              // 切换主题
-              document.documentElement.setAttribute('data-theme', theme)
-              localStorage.setItem('theme', theme)
-            })();
-          `,
-          hid: 'custom-inline-script' // 唯一标识，防止重复
-        }
-      ]
+      // 全局内联脚本 (已移除自定义主题切换脚本，改用 @nuxtjs/color-mode)
+      script: []
     },
     pageTransition: { name: 'page', mode: 'out-in' }
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/content'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode', '@nuxt/image'],
+  image: {
+    domains: ['sunsunblog.top'], // 配置允许优化的域名
+    presets: {
+      thumbnail: {
+        modifiers: {
+          format: 'webp',
+          width: 50,
+          quality: 70
+        }
+      }
+    }
+  },
+  colorMode: {
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    hid: '__nuxt_color_mode_script', // avoid flash of light theme
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode', // key used for localStorage
+    dataValue: 'theme' // activate data-theme in <html> tag
+  },
   components: [
     {
       path: '~/components',
@@ -65,5 +67,50 @@ export default defineNuxtConfig({
       }
     }
   },
-  ssr: true
+  ssr: true,
+  vite: {
+    build: {
+      rollupOptions: {
+        plugins: [
+          // visualizer({
+          //   open: true, // Automatically open the report in the browser
+          //   filename: '.nuxt/stats.html', // Output file path
+          //   gzipSize: true,
+          //   brotliSize: true,
+          // }),
+          ViteImageOptimizer({
+            png: {
+              // https://sharp.pixelplumbing.com/api-output#png
+              quality: 100,
+            },
+            jpeg: {
+              // https://sharp.pixelplumbing.com/api-output#jpeg
+              quality: 100,
+            },
+            jpg: {
+              // https://sharp.pixelplumbing.com/api-output#jpeg
+              quality: 100,
+            },
+            tiff: {
+              // https://sharp.pixelplumbing.com/api-output#tiff
+              quality: 100,
+            },
+            // gif does not support lossless compression
+            // https://sharp.pixelplumbing.com/api-output#gif
+            gif: {},
+            webp: {
+              // https://sharp.pixelplumbing.com/api-output#webp
+              lossless: true,
+            },
+            avif: {
+              // https://sharp.pixelplumbing.com/api-output#avif
+              lossless: true,
+            },
+            cache: false,
+            cacheLocation: undefined,
+          })
+        ]
+      }
+    }
+  }
 })

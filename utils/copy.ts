@@ -1,7 +1,6 @@
 // utils/copy.js
 export const copyCode = (elementId: any) => {
   if (process.client) { // 确保在客户端执行
-    console.log('copyCode', process.client, elementId)
     const codeBlock = document.getElementById(elementId);
     if (!codeBlock) return;
 

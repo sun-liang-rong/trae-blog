@@ -105,12 +105,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
 import gsap from 'gsap'
-import { marked } from 'marked'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-dark.css' // 代码高亮的样式
+import { ref, onMounted, onUnmounted } from 'vue'
 import dayjs from 'dayjs'
+
+// Dynamically import heavy libraries
+const loadMarked = () => import('marked').then(m => m.marked);
+const loadHljs = () => import('highlight.js');
+
+// Import CSS directly as it's needed for styling regardless
+import 'highlight.js/styles/atom-one-dark.css';
 const route = useRoute()
 const router = useRouter()
 const formatDate = (date) => {
@@ -123,49 +127,53 @@ hljs.configure({
 });
 // 文章数据
 const article = ref({})
+const tags = ref([]) // Assuming tags might be populated later, keep for now or remove if confirmed unused.
 const loading = ref(true)
   $fetch("/api/articles/detail?articleId=" + route.params.id, {
     method: "GET"
   }).then((res) => {
     if (res?.code === 200) {
-      console.log(res, 'res')
-    hljs.initHighlighting();
-    // 给所有的code标签添加类名 
-    const render = new marked.Renderer()
+      article.value = res.data;
+      // Dynamically load and use marked and hljs
+      Promise.all([loadMarked(), loadHljs()]).then(([marked, hljsModule]) => {
+        const hljs = hljsModule.default; // Access default export
+        hljs.configure({
+          ignoreUnescapedHTML: true,
+          languages: ['javascript', 'html', 'css', 'xml', 'bash', 'json', 'python', 'java', 'csharp', 'php'] // Add more common languages
+        });
 
-    render.code = function (code, language) {
-      // 高亮代码块 
-      console.log(code, language, '1code')
-      const validLanguage = hljs.getLanguage(code.lang)? code.lang : 'plaintext'
-      // 生成唯一 ID（用于多代码块场景）
-      const uniqueId = 'code-' + Math.random().toString(36).substr(2, 9);
-      const highlighted = hljs.highlight(validLanguage, code.text).value;
-      
-      return `
-      <div class="code-block-wrapper">
-        <div class="copy-button" id="${'btn-' + uniqueId}" onclick="copyCode('${uniqueId}')">复制</div>
-        <pre id="${uniqueId}" class="hljs ${validLanguage}">${highlighted}</pre>
-      </div>
-      `
+        const renderer = new marked.Renderer();
+        renderer.code = function(code, lang) {
+          const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+          const highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value;
+          const uniqueId = 'code-' + Math.random().toString(36).substr(2, 9);
+          // Note: The copy function needs to be globally available or handled differently in Nuxt
+          return `
+          <div class="code-block-wrapper">
+            <div class="copy-button" id="${'btn-' + uniqueId}" onclick="copyCode('${uniqueId}')">复制</div>
+            <pre id="${uniqueId}" class="hljs ${language}" style="overflow: auto;">${highlighted}</pre>
+          </div>
+          `;
+        };
+
+        marked.setOptions({
+          renderer: renderer,
+          gfm: true,
+          tables: true,
+          breaks: false,
+          pedantic: false,
+          sanitize: false, // Be cautious with sanitize: false if content is user-generated
+          smartLists: true,
+          smartypants: false
+        });
+
+        article.value.content = marked(article.value.content || ''); // Ensure content is not null/undefined
+      }).catch(error => {
+        console.error("Error loading markdown/highlighting libraries:", error);
+        // Handle error, maybe show raw content or an error message
+        article.value.content = article.value.content; // Show raw content as fallback
+      });
     }
-    marked.setOptions({
-      highlight: function (code) {
-        console.log(code, 'code')
-          return hljs.highlightAuto(code).value
-      },
-      renderer: render,
-      gfm: true,
-      tables: true,
-      breaks: false,
-      pedantic: false,
-      sanitize: true,
-      smartLists: true,
-      smartypants: false,
-      
-    });
-    article.value = res.data;
-    article.value.content = marked(article.value.content)
-  }
   }).finally(() => {
     loading.value = false
   })
@@ -173,42 +181,14 @@ const loading = ref(true)
 // 阅读进度跟踪
 const readingProgress = ref(0)
 const contentRef = ref(null)
-const isScrolled = ref(false)
-const activeHeading = ref(0)
 
 
-// 上一篇/下一篇文章
-const prevArticle = ref({
-  id: parseInt(route.params.id) - 1 > 0 ? parseInt(route.params.id) - 1 : null,
-  title: '上一篇文章标题'
-})
+// 上一篇/下一篇文章 (Commented out in template)
+// const prevArticle = ref(...)
+// const nextArticle = ref(...)
 
-const nextArticle = ref({
-  id: parseInt(route.params.id) + 1,
-  title: '下一篇文章标题'
-})
-
-// 相关文章推荐
-const relatedArticles = ref([
-  {
-    id: 3,
-    title: '现代CSS布局技巧',
-    tag: 'CSS',
-    coverImage: '/images/featured-css.jpg'
-  },
-  {
-    id: 4,
-    title: 'Vue3组合式API最佳实践',
-    tag: 'Vue',
-    coverImage: '/images/vue3-api.jpg'
-  },
-  {
-    id: 5,
-    title: 'JavaScript异步编程进阶',
-    tag: 'JavaScript',
-    coverImage: '/images/js-async.jpg'
-  }
-])
+// 相关文章推荐 (Commented out in template)
+// const relatedArticles = ref(...)
 
 // 返回上一页
 const navigateBack = () => {
@@ -216,30 +196,11 @@ const navigateBack = () => {
   router.go(-1)
 }
 
-// 获取标签颜色
-const getTagColor = (tag) => {
-  switch(tag) {
-    case 'Nuxt': return '#42b883';
-    case 'Three.js': return '#6b4bb3';
-    case 'Vue': return '#3eaf7c';
-    case 'JavaScript': return '#f7df1e';
-    case 'CSS': return '#2965f1';
-    case 'HTML': return '#e34c26';
-    default: return '#cccccc';
-  }
-}
+// 获取标签颜色 (Unused)
+// const getTagColor = (tag) => { ... }
 
-// 平滑滚动到指定标题
-const scrollToHeading = (index) => {
-  const headingElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
-  if (headingElements[index]) {
-    const targetPosition = headingElements[index].offsetTop - 100
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
-    })
-  }
-}
+// 平滑滚动到指定标题 (Unused)
+// const scrollToHeading = (index) => { ... }
 
 // 监听滚动事件
 const handleScroll = () => {
@@ -250,31 +211,12 @@ const handleScroll = () => {
     readingProgress.value = Math.min(Math.round((scrolled / maxScroll) * 100), 100)
   }
   
-  // 更新目录固定状态
-  isScrolled.value = window.scrollY > 100
+  // 更新目录固定状态 (Unused variable isScrolled)
+  // isScrolled.value = window.scrollY > 100
   
-  // 更新当前活跃标题
-  const headingElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
-  if (headingElements.length) {
-    let activeIndex = -1
-    const scrollPosition = window.scrollY + 100 // 考虑100px的偏移量
-    
-    for (let i = 0; i < headingElements.length; i++) {
-      const element = headingElements[i]
-      const elementTop = element.offsetTop
-      const nextElement = headingElements[i + 1]
-      const nextElementTop = nextElement ? nextElement.offsetTop : document.documentElement.scrollHeight
-      
-      if (scrollPosition >= elementTop && scrollPosition < nextElementTop) {
-        activeIndex = i
-        break
-      }
-    }
-    
-    if (activeIndex !== -1) {
-      activeHeading.value = activeIndex
-    }
-  }
+  // 更新当前活跃标题 (Unused variable activeHeading)
+  // const headingElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+  // if (headingElements.length) { ... }
 }
 
 onMounted(() => {

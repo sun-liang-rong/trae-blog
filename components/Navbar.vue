@@ -70,25 +70,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
-// 主题切换
-const theme = ref('light')
 const isMenuActive = ref(false)
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
-  document.documentElement.setAttribute('data-theme', theme.value)
-  if (process.client) {
-    localStorage.setItem('theme', theme.value)
-  }
-}
-
-onMounted(() => {
-  if (process.client) {
-    theme.value = localStorage.getItem('theme') || 'light'
-  }
-})
 
 const toggleMenu = () => {
   isMenuActive.value = !isMenuActive.value
@@ -99,10 +83,23 @@ const closeMenu = () => {
   isMenuActive.value = false
 }
 
-// 初始化主题
+const colorMode = useColorMode()
+
+const theme = computed(() => colorMode.value)
+
+// 切换主题
+const toggleTheme = () => {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
 onMounted(() => {
-  document.documentElement.setAttribute('data-theme', theme.value)
+  // 滚动事件监听
+  // if (process.client) {
+  //   window.addEventListener('scroll', handleScroll)
+  //   handleScroll() // 初始化检查
+  // }
 })
+
 </script>
 
 <style scoped>

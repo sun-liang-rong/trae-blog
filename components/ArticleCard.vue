@@ -1,7 +1,15 @@
 <template>
   <NuxtLink :to="`/articles/${article.id}`" class="article-card">
     <div class="card-content">
-      <div class="cover-image" :style="{ backgroundImage: `url(${'http://localhost:3000/api' + article.coverImage})` }">
+      <div class="cover-image-container">
+        <img 
+          :src="article.coverImage ? 'http://localhost:3000/api' + article.coverImage : '/_nuxt/assets/images/cover.png'" 
+          :alt="article.title + ' cover'" 
+          class="cover-image" 
+          loading="lazy"
+          width="300" 
+          height="220" 
+        />
         <div class="overlay">
           <span class="tag" v-for="item in article.tags" :key="item.id" :style="{ backgroundColor: item.tagColor }">
             {{ item.tagName }}
@@ -37,11 +45,6 @@
           </span>
         </div>
       </div>
-      <button class="bookmark-btn" @click.prevent="toggleBookmark" :class="{ 'bookmarked': isBookmarked }" aria-label="收藏文章">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </button>
     </div>
   </NuxtLink>
 </template>
@@ -57,12 +60,6 @@ const props = defineProps({
 })
 const formatDate = (date) => {
   return dayjs(date).format('YYYY-MM-DD');
-}
-const isBookmarked = ref(false)
-
-const toggleBookmark = () => {
-  isBookmarked.value = !isBookmarked.value
-  // 这里可以添加实际的收藏逻辑
 }
 
 </script>
@@ -97,12 +94,18 @@ const toggleBookmark = () => {
   flex-direction: column;
 }
 
-.cover-image {
+.cover-image-container {
   position: relative;
   width: 100%;
-  height: 220px;
-  background-size: cover;
-  background-position: center;
+  height: 220px; /* Maintain aspect ratio or set fixed height */
+  overflow: hidden;
+}
+
+.cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure image covers the container */
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -223,7 +226,7 @@ const toggleBookmark = () => {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--card-bg);
   border: none;
   color: var(--text-secondary);
   cursor: pointer;
