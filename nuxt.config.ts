@@ -49,7 +49,7 @@ export default defineNuxtConfig({
   nitro: {
     devProxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'http://sunsunblog.top:3001',
         changeOrigin: true,
         prependPath: true
       }

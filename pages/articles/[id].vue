@@ -1,24 +1,32 @@
 <template>
   <div class="article-detail">
     <!-- 阅读进度条 -->
-    <div class="reading-progress" :style="{ width: readingProgress + '%' }"></div>
-    
+    <div
+      class="reading-progress"
+      :style="{ width: readingProgress + '%' }"
+    ></div>
     <div class="container">
       <!-- 返回导航按钮 -->
+       <!-- 将按钮固定在页面顶部 -->
       <button class="back-button" @click="navigateBack">← 返回列表</button>
-      
       <div class="article-main">
         <!-- 文章标题区 -->
         <h1 class="title">{{ article.title }}</h1>
-        
         <!-- 元信息展示区 -->
         <div class="meta">
-          <div class="meta-tags">
-            <span class="tag" v-for="item in tags" :key="item.id" :style="{ backgroundColor: item.tagC }">{{ item.tagName }}</span>
-          </div>
           <div class="meta-info">
             <span class="date">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="16" y1="2" x2="16" y2="6"></line>
                 <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -26,15 +34,18 @@
               </svg>
               {{ formatDate(article.createTime0) }}
             </span>
-            <!-- <span class="read-time">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              {{ article.readTime }}分钟阅读
-            </span> -->
             <span class="views">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
@@ -42,146 +53,157 @@
             </span>
           </div>
         </div>
-
         <!-- 文章内容渲染区 -->
-        <div v-if="!loading" class="content" ref="contentRef" v-html="article.content">
-        </div>
-        
+        <div
+          v-if="!loading"
+          class="content"
+          ref="contentRef"
+          v-html="article.content"
+        ></div>
+
         <!-- 分享按钮组 -->
         <div class="share-buttons">
           <button class="share-btn" aria-label="分享到微信">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              ></path>
             </svg>
           </button>
           <button class="share-btn" aria-label="分享到微博">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+              ></path>
             </svg>
           </button>
           <button class="share-btn" aria-label="复制链接">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+              ></path>
+              <path
+                d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+              ></path>
             </svg>
           </button>
         </div>
-        
-        <!-- 上一篇/下一篇导航 -->
-        <!-- <div class="article-navigation">
-          <NuxtLink v-if="prevArticle" :to="`/articles/${prevArticle.id}`" class="nav-link prev">
-            <span class="nav-direction">← 上一篇</span>
-            <span class="nav-title">{{ prevArticle.title }}</span>
-          </NuxtLink>
-          <div v-else class="nav-link disabled"></div>
-          
-          <NuxtLink v-if="nextArticle" :to="`/articles/${nextArticle.id}`" class="nav-link next">
-            <span class="nav-direction">下一篇 →</span>
-            <span class="nav-title">{{ nextArticle.title }}</span>
-          </NuxtLink>
-          <div v-else class="nav-link disabled"></div>
-        </div> -->
       </div>
-      
-      <!-- 相关文章推荐 -->
-      <!-- <div class="related-articles">
-        <h3 class="section-title">相关推荐</h3>
-        <div class="related-grid">
-          <div v-for="(relatedArticle, index) in relatedArticles" :key="index" class="related-card">
-            <NuxtLink :to="`/articles/${relatedArticle.id}`" class="related-link">
-              <div class="related-image" v-if="relatedArticle.coverImage">
-                <img :src="relatedArticle.coverImage" :alt="relatedArticle.title" />
-              </div>
-              <h4 class="related-title">{{ relatedArticle.title }}</h4>
-              <span class="related-tag" :style="{ backgroundColor: getTagColor(relatedArticle.tag) }">
-                {{ relatedArticle.tag }}
-              </span>
-            </NuxtLink>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import gsap from 'gsap'
-import { ref, onMounted, onUnmounted } from 'vue'
-import dayjs from 'dayjs'
+import gsap from "gsap";
+import { ref, onMounted, onUnmounted } from "vue";
+import dayjs from "dayjs";
 
 // Dynamically import heavy libraries
-const loadMarked = () => import('marked').then(m => m.marked);
-const loadHljs = () => import('highlight.js');
-
+import { marked } from "marked";
+import highlight from "highlight.js";
 // Import CSS directly as it's needed for styling regardless
-import 'highlight.js/styles/atom-one-dark.css';
-const route = useRoute()
-const router = useRouter()
+import "highlight.js/styles/atom-one-dark.css";
+const route = useRoute();
+const router = useRouter();
 const formatDate = (date) => {
-  return dayjs(date).format('YYYY-MM-DD HH:mm:ss')
-}
-// 初始化高亮库
-hljs.configure({
-  ignoreUnescapedHTML: true, // 避免高亮库与 marked 的 sanitize 冲突
-  languages: ['javascript', 'html', 'css'] // 预加载语言
-});
+  return dayjs(date).format("YYYY-MM-DD HH:mm:ss");
+};
+
 // 文章数据
-const article = ref({})
-const tags = ref([]) // Assuming tags might be populated later, keep for now or remove if confirmed unused.
-const loading = ref(true)
-  $fetch("/api/articles/detail?articleId=" + route.params.id, {
-    method: "GET"
-  }).then((res) => {
+const article = ref({});
+const tags = ref([]); // Assuming tags might be populated later, keep for now or remove if confirmed unused.
+const loading = ref(true);
+$fetch("/api/articles/detail?articleId=" + route.params.id, {
+  method: "GET",
+})
+  .then((res) => {
     if (res?.code === 200) {
       article.value = res.data;
-      // Dynamically load and use marked and hljs
-      Promise.all([loadMarked(), loadHljs()]).then(([marked, hljsModule]) => {
-        const hljs = hljsModule.default; // Access default export
-        hljs.configure({
-          ignoreUnescapedHTML: true,
-          languages: ['javascript', 'html', 'css', 'xml', 'bash', 'json', 'python', 'java', 'csharp', 'php'] // Add more common languages
-        });
-
-        const renderer = new marked.Renderer();
-        renderer.code = function(code, lang) {
-          const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-          const highlighted = hljs.highlight(code, { language, ignoreIllegals: true }).value;
-          const uniqueId = 'code-' + Math.random().toString(36).substr(2, 9);
-          // Note: The copy function needs to be globally available or handled differently in Nuxt
-          return `
-          <div class="code-block-wrapper">
-            <div class="copy-button" id="${'btn-' + uniqueId}" onclick="copyCode('${uniqueId}')">复制</div>
-            <pre id="${uniqueId}" class="hljs ${language}" style="overflow: auto;">${highlighted}</pre>
-          </div>
-          `;
-        };
-
-        marked.setOptions({
-          renderer: renderer,
-          gfm: true,
-          tables: true,
-          breaks: false,
-          pedantic: false,
-          sanitize: false, // Be cautious with sanitize: false if content is user-generated
-          smartLists: true,
-          smartypants: false
-        });
-
-        article.value.content = marked(article.value.content || ''); // Ensure content is not null/undefined
-      }).catch(error => {
-        console.error("Error loading markdown/highlighting libraries:", error);
-        // Handle error, maybe show raw content or an error message
-        article.value.content = article.value.content; // Show raw content as fallback
+      const hljs = highlight.default;
+      hljs.configure({
+        ignoreUnescapedHTML: true,
+        languages: [
+          "javascript",
+          "html",
+          "css",
+          "xml",
+          "bash",
+          "json",
+          "python",
+          "java",
+          "csharp",
+          "php",
+        ],
       });
+      const renderer = new marked.Renderer();
+      renderer.code = function (code, lang) {
+        const language = hljs.getLanguage(code.lang) ? code.lang : "plaintext";
+        const highlighted = hljs.highlight(code.text, { language }).value;
+        const uniqueId = "code-" + Math.random().toString(36).substr(2, 9);
+        return `
+            <div class="code-block-wrapper">
+              <div class="copy-button" id="${
+                "btn-" + uniqueId
+              }" onclick="copyCode('${uniqueId}')">复制</div>
+              <pre id="${uniqueId}" class="hljs ${language}" style="overflow: auto;">${highlighted}</pre>
+            </div>
+            `;
+      };
+      marked.setOptions({
+        renderer: renderer,
+        langPrefix: "hljs language-", // our custom prefix instead of 'hljs lang-'
+        pedantic: false,
+        gfm: true,
+        breaks: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false,
+      });
+      const contentToRender =
+        typeof article.value.content === "string"
+          ? article.value.content
+          : String(article.value.content || "");
+      article.value.content = marked.parse(contentToRender);
     }
-  }).finally(() => {
-    loading.value = false
   })
+  .finally(() => {
+    loading.value = false;
+  });
 
 // 阅读进度跟踪
-const readingProgress = ref(0)
-const contentRef = ref(null)
-
+const readingProgress = ref(0);
+const contentRef = ref(null);
 
 // 上一篇/下一篇文章 (Commented out in template)
 // const prevArticle = ref(...)
@@ -193,8 +215,8 @@ const contentRef = ref(null)
 // 返回上一页
 const navigateBack = () => {
   // 返回上一页
-  router.go(-1)
-}
+  router.go(-1);
+};
 
 // 获取标签颜色 (Unused)
 // const getTagColor = (tag) => { ... }
@@ -206,43 +228,47 @@ const navigateBack = () => {
 const handleScroll = () => {
   // 更新阅读进度
   if (contentRef.value) {
-    const scrolled = window.scrollY
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-    readingProgress.value = Math.min(Math.round((scrolled / maxScroll) * 100), 100)
+    const scrolled = window.scrollY;
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+    readingProgress.value = Math.min(
+      Math.round((scrolled / maxScroll) * 100),
+      100
+    );
   }
-  
+
   // 更新目录固定状态 (Unused variable isScrolled)
   // isScrolled.value = window.scrollY > 100
-  
+
   // 更新当前活跃标题 (Unused variable activeHeading)
   // const headingElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
   // if (headingElements.length) { ... }
-}
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-  handleScroll()
-  
+  window.addEventListener("scroll", handleScroll);
+  handleScroll();
+
   // 添加页面进入动画
-  gsap.from('.article-main', {
+  gsap.from(".article-main", {
     opacity: 0,
     y: 30,
     duration: 0.8,
-    ease: 'power2.out'
-  })
-  
-  gsap.from('.table-of-contents', {
+    ease: "power2.out",
+  });
+
+  gsap.from(".table-of-contents", {
     opacity: 0,
     x: 30,
     duration: 0.8,
     delay: 0.3,
-    ease: 'power2.out'
-  })
-})
+    ease: "power2.out",
+  });
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <style scoped>
@@ -324,7 +350,9 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
-.date, .read-time, .views {
+.date,
+.read-time,
+.views {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -343,6 +371,8 @@ onUnmounted(() => {
 
 /* 返回按钮 */
 .back-button {
+  position: sticky;
+  top: 80px;
   margin-top: var(--spacing-lg);
   background: none;
   border: 2px solid var(--primary-color);
@@ -454,7 +484,7 @@ onUnmounted(() => {
 }
 
 .section-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -471,7 +501,11 @@ onUnmounted(() => {
 }
 
 .related-card {
-  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(var(--primary-rgb), 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--card-bg) 0%,
+    rgba(var(--primary-rgb), 0.1) 100%
+  );
   border: 1px solid rgba(var(--primary-rgb), 0.1);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -483,10 +517,14 @@ onUnmounted(() => {
 }
 
 .related-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(45deg, transparent, rgba(var(--accent-rgb), 0.15));
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(var(--accent-rgb), 0.15)
+  );
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -514,7 +552,7 @@ onUnmounted(() => {
 }
 
 .related-image::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
@@ -560,7 +598,11 @@ onUnmounted(() => {
   color: white;
   font-weight: 600;
   backdrop-filter: blur(4px);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1)
+  );
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transform: translateZ(20px);
   transition: transform 0.3s ease;
@@ -575,11 +617,11 @@ onUnmounted(() => {
   .related-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .title {
     font-size: 2rem;
   }
-  
+
   .article-navigation {
     flex-direction: column;
   }

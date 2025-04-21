@@ -8,7 +8,7 @@
         :class="{ 'active': currentIndex === index }"
       >
         <img 
-          :src="article.coverImage ? '/api' + article.coverImage : '/_nuxt/assets/images/cover.png'" 
+          :src="article.coverImage ? '/api' + article.coverImage : imgUrl" 
           :alt="article.title + ' cover'" 
           class="slide-background-image" 
           loading="lazy"
@@ -64,7 +64,8 @@
 
 <script setup>
 import { ref,onMounted, onBeforeUnmount } from 'vue'
-
+const imgUrl = ref('')
+imgUrl.value = new URL('/assets/images/cover.png', import.meta.url)
 const props = defineProps({
   autoplay: {
     type: Boolean,

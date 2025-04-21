@@ -517,7 +517,7 @@ try {
 /* 响应式调整 */
 @media (max-width: 1024px) {
   .home-content {
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     /* 调整比例 */
   }
 

@@ -3,7 +3,7 @@
     <div class="card-content">
       <div class="cover-image-container">
         <img 
-          :src="article.coverImage ? 'http://localhost:3000/api' + article.coverImage : '/_nuxt/assets/images/cover.png'" 
+          :src="article.coverImage ? 'http://localhost:3000/api' + article.coverImage : imgUrl" 
           :alt="article.title + ' cover'" 
           class="cover-image" 
           loading="lazy"
@@ -52,6 +52,8 @@
 <script setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+const imgUrl = ref('')
+imgUrl.value = new URL('/assets/images/cover.png', import.meta.url)
 const props = defineProps({
   article: {
     type: Object,
