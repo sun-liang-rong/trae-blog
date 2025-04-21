@@ -1,9 +1,13 @@
 # Nuxt dev/build outputs
 .data
-.nuxt/*
+# 忽略.nuxt文件夹 里面的所有文件夹
+.nuxt/
+# 忽略.nuxt文件夹 里面的所有文件
+.nuxt/**
 .nitro
 .cache
 dist
+.outputs
 .vscode/
 # Node dependencies
 node_modules/
