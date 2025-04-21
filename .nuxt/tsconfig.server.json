@@ -127,8 +127,26 @@
       "#color-mode-options": [
         "./color-mode-options"
       ],
+      "#sitemap": [
+        "../node_modules/@nuxtjs/sitemap/dist/runtime"
+      ],
+      "#sitemap/*": [
+        "../node_modules/@nuxtjs/sitemap/dist/runtime/*"
+      ],
+      "#site-config": [
+        "../node_modules/nuxt-site-config/dist/runtime"
+      ],
+      "#site-config/*": [
+        "../node_modules/nuxt-site-config/dist/runtime/*"
+      ],
+      "#sitemap/content-v3-nitro-path": [
+        "../node_modules/@nuxt/content/dist/runtime/nitro"
+      ],
       "#vue-router": [
         "./vue-router"
+      ],
+      "#internal/nuxt-site-config": [
+        "../node_modules/nuxt-site-config/dist/runtime/server/composable-barrel-deprecated"
       ],
       "#content/dump": [
         "./content/database.compressed"
@@ -153,8 +171,12 @@
     "../node_modules/@nuxtjs/mdc/runtime/server",
     "../node_modules/@nuxt/content/runtime/server",
     "../node_modules/@nuxtjs/color-mode/runtime/server",
+    "../node_modules/nuxt-site-config/dist/module.mjs/runtime/server",
+    "../node_modules/@nuxtjs/sitemap/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
+    "./module/nuxt-site-config.d.ts",
+    "./module/@nuxtjs-sitemap.d.ts",
     "./types/nitro.d.ts",
     "../**/*",
     "../server/**/*"
@@ -166,6 +188,8 @@
     "../node_modules/@nuxtjs/mdc/node_modules",
     "../node_modules/@nuxt/content/node_modules",
     "../node_modules/@nuxtjs/color-mode/node_modules",
+    "../node_modules/nuxt-site-config/node_modules",
+    "../node_modules/@nuxtjs/sitemap/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"

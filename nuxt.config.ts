@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     },
     pageTransition: { name: 'page', mode: 'out-in' }
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxtjs/color-mode', '@nuxtjs/sitemap'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found

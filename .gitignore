@@ -1,32 +1,20 @@
-# Nuxt dev/build outputs
-.data
-# 忽略.nuxt文件夹 里面的所有文件夹
-.nuxt/
-# 忽略.nuxt文件夹 里面的所有文件
-.nuxt/**
-.nitro
-.cache
 dist
-.outputs
-.vscode/
-# Node dependencies
-node_modules/
-
-# Logs
-logs
-*.log
-
-# Misc
+temp
+coverage
+node_modules
 .DS_Store
-.fleet
 .idea
+.vscode
+debug.log
 
-# Local env files
+*.log
+*.swp
+*~
 .env
-.env.*
-!.env.example
-sudo yum -y install https://repo.mysql.com//mysql80-community-release-el8-9.noarch.rpm
 
-qJH0A=egRvlA
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
 
-ALTER USER 'root'@'localhost' IDENTIFIED BY '自己的新密码'
+.nuxt
+.output
