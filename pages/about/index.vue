@@ -7,7 +7,7 @@
       <section class="about-section profile-section">
         <div class="section-content">
           <div class="avatar">
-            <img src="/assets/images/happyCat.png" alt="个人头像" />
+            <img src="/assets/images/happyCat.webp" alt="个人头像" />
           </div>
           <div class="profile-info">
             <h2>Hi, 我是一名全栈开发者</h2>

@@ -2,7 +2,7 @@
   <div class="sidebar">
     <!-- 个人简介模块 -->
     <div class="profile-card card">
-      <img src="/assets/images/happyCat.png" class="avatar" alt="Profile Avatar" />
+      <img src="/assets/images/happyCat.webp" class="avatar" alt="Profile Avatar" />
       <h2 class="name">{{ profile.name }}</h2>
       <p class="bio">{{ profile.bio }}</p>
       <div class="social-links">
@@ -37,7 +37,7 @@ const props = defineProps({
   profile: {
     type: Object,
     default: () => ({
-      avatar: '/assets/images/happyCat.png',
+      avatar: '/assets/images/happyCat.webp',
       name: '技术博主',
       bio: '专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。',
       links: [

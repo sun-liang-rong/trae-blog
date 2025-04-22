@@ -65,7 +65,7 @@
 <script setup>
 import { ref,onMounted, onBeforeUnmount } from 'vue'
 const imgUrl = ref('')
-imgUrl.value = new URL('/assets/images/cover.png', import.meta.url)
+imgUrl.value = new URL('/assets/images/cover.webp', import.meta.url)
 const props = defineProps({
   autoplay: {
     type: Boolean,

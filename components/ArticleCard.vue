@@ -53,7 +53,7 @@
 import { ref } from 'vue'
 import dayjs from 'dayjs'
 const imgUrl = ref('')
-imgUrl.value = new URL('/assets/images/cover.png', import.meta.url)
+imgUrl.value = new URL('/assets/images/cover.webp', import.meta.url)
 const props = defineProps({
   article: {
     type: Object,

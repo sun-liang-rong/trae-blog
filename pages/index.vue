@@ -41,7 +41,7 @@ if (process.client) {
 
 // 个人资料数据
 const profile = ref({
-  avatar: "/assets/images/happyCat.png",
+  avatar: "/assets/images/happyCat.webp",
   name: "技术博主",
   bio: "专注前端技术分享，热爱Vue和WebGL，探索交互设计与用户体验的无限可能。",
   links: [
